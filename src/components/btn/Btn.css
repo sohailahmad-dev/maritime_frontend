@@ -1,0 +1,32 @@
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    max-width: 90%;
+    width: 428px;
+    height: 50px;
+    border-radius: 32px;
+    margin: 8px 0px;
+    background-color: var(--accent-bg);
+    /* background-image: linear-gradient(#0071D4, #006AC7, var(--primary-bg)); */
+    color: white;
+    outline: none;
+    border: none;
+    font-family: Poppins-SemiBold, 'Courier New', Courier, monospace;
+    font-size: 17px;
+}
+
+.button:hover {
+    opacity: 0.85;
+    transition: 0.5s ease;
+}
+
+@media (max-width:699px) {
+    .button {
+        height: 45px;
+        font-size: 14px;
+    }
+
+
+}
