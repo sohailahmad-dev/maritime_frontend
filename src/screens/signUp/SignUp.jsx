@@ -3,6 +3,7 @@ import './SignUp.css'
 import InputField from '../../components/inputField/InputField'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
+import EventIcon from '@mui/icons-material/Event';
 import EmailIcon from '@mui/icons-material/Email';
 import SelectBox from '../../components/selectBox/SelectBox';
 import Btn from '../../components/btn/Btn';
@@ -17,9 +18,11 @@ export default function SignUp() {
                 <div className="heading1" style={{ marginBottom: '30px' }}>SIGN UP</div>
                 <InputField icon={AccountCircleIcon} placeholder="Full Name" />
                 <InputField icon={EmailIcon} placeholder="Email" />
+                <InputField icon={EventIcon} placeholder="Age" inputType='number' />
                 <InputField icon={LockOpenIcon} placeholder="Password" isPassword={true} />
-                <SelectBox label="Select Role" options={['Student', 'Employer', 'Admin', 'Job Seeker']} />
-                <Btn label='Create Account' />
+                <SelectBox label="Select Gender" options={['Male', 'Female']} />
+                <SelectBox label="Select Role" options={['Student', 'Employer', 'Job Seeker']} />
+                <Btn label='Submit' />
                 <div className="text1 accountSignIn">
                     Already have an account?
                     <span onClick={() => navigate('/SignIn')} > Sign In</span>

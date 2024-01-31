@@ -4,7 +4,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { Icon } from '@mui/material';
 
-export default function InputField({ icon, placeholder, isPassword, onChange, value }) {
+export default function InputField({ icon, placeholder, isPassword, onChange, value, inputType }) {
 
     let [type, setType] = useState('text')
 
@@ -22,7 +22,7 @@ export default function InputField({ icon, placeholder, isPassword, onChange, va
         <div className='inputBox' >
             <div className='leftBox' >
                 {icon && <Icon fontSize='small' component={icon} />}
-                <input onChange={onChange} value={value} placeholder={placeholder} type={type} />
+                <input onChange={onChange} value={value} placeholder={placeholder} type={inputType ?? type} />
             </div>
             {isPassword &&
                 <div onClick={handleType} style={{ cursor: 'pointer' }} >
