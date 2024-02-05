@@ -16,7 +16,7 @@ export default function SelectBox({ label, options, onSelect }) {
     return (
         <div className='selectBox' >
             <div className="selectLabel">{(val === '') ? label : ''}</div>
-            <select id="select" value={val} onChange={onChange} style={{ width: (val === '') ? '50%' : '100%' }}>
+            <select id="select" value={val} onChange={onChange}>
                 <option key='' value=''> </option>
                 {options.map((option) => (
                     <option key={option} value={option}>

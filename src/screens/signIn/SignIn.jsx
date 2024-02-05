@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './SignIn.css'
 import InputField from '../../components/inputField/InputField'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -11,15 +11,39 @@ import { useNavigate } from 'react-router-dom';
 
 export default function SignIn() {
     const navigate = useNavigate();
+    const [dataObj, setDataObj] = useState({});
+
+    const addData = (key, val) => {
+        dataObj[key] = val;
+        setDataObj({ ...dataObj });
+    }
+
+    const loginAccount = () => {
+        console.log(dataObj)
+    }
     return (
         <div>
             <div className="signInLeft" data-aos="fade-right">
                 <div className="heading1" style={{ marginBottom: '30px' }}>SIGN IN</div>
-                {/* <InputField icon={AccountCircleIcon} placeholder="Full Name" /> */}
-                <InputField icon={EmailIcon} placeholder="Email" />
-                <InputField icon={LockOpenIcon} placeholder="Password" isPassword={true} />
-                <SelectBox label="Select Role" options={['Student', 'Employer', 'Admin', 'Job Seeker']} />
-                <Btn label='Login' onClick={() => navigate('/')} />
+                <InputField
+                    icon={EmailIcon}
+                    placeholder="Email"
+                    onChange={(e) => addData("email", e.target.value)}
+                />
+                <InputField
+                    icon={LockOpenIcon}
+                    placeholder="Password"
+                    isPassword={true}
+                    onChange={(e) => addData("password", e.target.value)}
+                />
+                <SelectBox
+                    label="Select Role"
+                    options={['Student', 'Employer', 'Admin', 'Job Seeker']}
+                    onSelect={(e) => addData("role", e)}
+                />
+                <Btn
+                    label='Login'
+                    onClick={loginAccount} />
                 <div className="text1 accountSignIn">
                     Don't have an account?
                     <span onClick={() => navigate('/SignUp')} > Sign Up</span>
