@@ -63,10 +63,9 @@ export default function SignUp() {
             })
                 .catch((error) => {
                     console.log(error)
-                    // setSnackMsg(error.msg);
+                    setSnackMsg("Network Error");
                     setOpenSnack(true);
                     setIsLoading(false)
-
                 });
         } else {
             setSnackMsg('Required Fields are missing!')

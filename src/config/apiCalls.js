@@ -7,6 +7,20 @@ const axiosInstance = axios.create({
     // withCredentials: true,
 });
 
+// Add a request interceptor to include the JWT token in the headers
+axiosInstance.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            config.headers.authentication = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
+
 // Function to make a POST request
 async function postData(endPoint, data) {
     try {

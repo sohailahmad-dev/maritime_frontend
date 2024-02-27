@@ -33,7 +33,7 @@ export default function AdminPanel() {
     }
 
     useEffect(() => {
-        const storedUserData = localStorage.getItem("userData");
+        const storedUserData = localStorage.getItem("user");
 
         if (storedUserData) {
             const data = JSON.parse(storedUserData);
@@ -93,9 +93,9 @@ export default function AdminPanel() {
         };
     }, []);
 
-    // useEffect(() => {
-    //     navigate('Dashboard')
-    // }, [])
+    useEffect(() => {
+        navigate('UserManagement')
+    }, [])
 
     const handleLogout = () => {
         setIsLoading(true)
@@ -131,7 +131,7 @@ export default function AdminPanel() {
                     <div>
                         <div className="sideBar-Profile-sec">
                             <img src={"https://tse1.mm.bing.net/th?id=OIP.FUYG2ULJI1LzxUqxK9pCZQHaHa&pid=Api&P=0&h=220"} className='ap-profile' />
-                            <div className="sideBar-profile-name">{"Admin"}</div>
+                            <div className="sideBar-profile-name">{userData?.username ?? "Admin"}</div>
                             <div className="sideBar-profile-email">{userData?.email}</div>
                         </div>
                         {
@@ -179,8 +179,8 @@ export default function AdminPanel() {
                                         <div />
                                     </div>
                                     <div className="ap-header-profile-left-text">
-                                        <div className="ap-header-profile-left-text-name">{userData?.firstname + " " + userData?.lastname}</div>
-                                        <div className="ap-header-profile-left-text-role">{userData?.role?.name ?? 'Role'}</div>
+                                        <div className="ap-header-profile-left-text-name">{userData?.username ?? 'Admin'}</div>
+                                        <div className="ap-header-profile-left-text-role">{userData?.role ?? 'Role'}</div>
                                     </div>
                                 </div>
                                 <div className="ap-header-profile-right">

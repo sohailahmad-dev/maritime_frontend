@@ -19,9 +19,12 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LockIcon from '@mui/icons-material/Lock';
 import EmailIcon from '@mui/icons-material/Email';
 import CancelIcon from '@mui/icons-material/Cancel';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+import EventIcon from '@mui/icons-material/Event';
 import Snack from '../../../../components/snack/Snack';
 import Loader from '../../../../components/loader/Loader';
 import Btn from '../../../../components/btn/Btn';
+import SelectBox from '../../../../components/selectBox/SelectBox';
 
 export default function UserManagement() {
 
@@ -223,13 +226,14 @@ export default function UserManagement() {
     ]);
     let [openCreateUserModal, setOpenCreateUserModal] = useState(false)
     let [openEditUserModal, setOpenEditUserModal] = useState(false)
-    let [userObj, setUserObj] = useState({
-        firstname: '',
-        lastname: '',
-        username: '',
-        email: '',
-        password: '',
-    })
+    const [dataObj, setDataObj] = useState({
+        email: "",
+        password: "",
+        role: "",
+        user_age: "",
+        user_gender: "",
+        username: "",
+    });
     let [editUserObj, setEditUserObj] = useState({});
     let [roles, setRoles] = useState([]);
     let [openAssignRoleModal, setOpenAssignRoleModal] = useState(false);
@@ -238,6 +242,31 @@ export default function UserManagement() {
     let [openSnack, setOpenSnack] = useState(false);
     let [severity, setSeverity] = useState('error')
     let [snackMsg, setSnackMsg] = useState('');
+
+    const getUsers = () => {
+        setIsLoading(true)
+        getData(`users`).then((response) => {
+            if (response.success) {
+                // console.log(response.data)
+                setUsersData(response?.data)
+                setTotalUsers(response?.data.length)
+                setIsLoading(false)
+            } else {
+                setSnackMsg(response.message);
+                setOpenSnack(true);
+                setIsLoading(false)
+            }
+        })
+            .catch((error) => {
+                setSnackMsg(error.message ?? "Network Error");
+                setOpenSnack(true);
+                setIsLoading(false)
+            });
+    }
+
+    useEffect(() => {
+        getUsers();
+    }, [])
 
     // pagination 
 
@@ -248,12 +277,14 @@ export default function UserManagement() {
     useEffect(() => {
         const startIndex = (currentPage - 1) * itemsPerPage;
         const endIndex = startIndex + itemsPerPage;
-        const currentUsers = usersData1.slice(startIndex, endIndex);
+        const currentUsers = usersData?.slice(startIndex, endIndex);
+        // console.log(currentUsers)
         setUsersToRender(currentUsers);
-    }, [currentPage, usersData1]);
+
+    }, [currentPage, usersData]);
 
     const handleNextPage = () => {
-        if (currentPage < Math.ceil(usersData1.length / itemsPerPage)) {
+        if (currentPage < Math.ceil(usersData.length / itemsPerPage)) {
             setCurrentPage((prevPage) => prevPage + 1);
         }
         else {
@@ -273,7 +304,7 @@ export default function UserManagement() {
     };
 
     const isFirstPage = currentPage === 1;
-    const isLastPage = currentPage === Math.ceil(usersData1.length / itemsPerPage);
+    const isLastPage = currentPage === Math.ceil(usersData?.length / itemsPerPage);
 
 
     const handleCloseSnack = () => {
@@ -284,7 +315,7 @@ export default function UserManagement() {
 
 
     useEffect(() => {
-        const storedUserData = localStorage.getItem("userData");
+        const storedUserData = localStorage.getItem("user");
         if (storedUserData) {
             const data = JSON.parse(storedUserData);
             setUserData(data)
@@ -293,31 +324,7 @@ export default function UserManagement() {
 
 
 
-    const getUsers = () => {
-        setIsLoading(true)
-        getData(`users`).then((response) => {
-            if (response.success) {
-                console.log(response.data)
-                setUsersData(response.users)
-                setTotalUsers(response.totalUsers)
-                setLimit(response.limit)
-                setIsLoading(false)
-            } else {
-                setSnackMsg(response.message);
-                setOpenSnack(true);
-                setIsLoading(false)
-            }
-        })
-            .catch((error) => {
-                setSnackMsg("Network Error ", error.message);
-                setOpenSnack(true);
-                setIsLoading(false)
-            });
-    }
 
-    useEffect(() => {
-        getUsers();
-    }, [pageNumber])
 
     const deleteUser = (id) => {
         setIsLoading(true)
@@ -343,24 +350,18 @@ export default function UserManagement() {
 
     const handleCreateUser = () => {
         setIsLoading(true)
-        const { firstname, lastname, username, password, email } = userObj;
-        if (firstname && lastname && username && password && email) {
+        const { username, password, email, role, user_age, user_gender } = dataObj;
+        if (username && password && email && role && user_age && user_gender) {
             // api call 
-            postData('/register', userObj).then((response) => {
-                if (response.success) {
-                    setOpenCreateUserModal(false)
-                    setSnackMsg(response.message);
+            postData('create_user', dataObj).then((response) => {
+                console.log(response)
+                if (response) {
+                    setOpenCreateUserModal(false);
+                    getUsers();
+                    setSnackMsg(response.msg);
                     setOpenSnack(true);
                     setSeverity('success');
                     setIsLoading(false);
-                    getUsers();
-                    setUserObj({
-                        firstname: '',
-                        lastname: '',
-                        username: '',
-                        email: '',
-                        password: '',
-                    })
                 } else {
                     setSnackMsg(response.message);
                     setOpenSnack(true);
@@ -368,7 +369,8 @@ export default function UserManagement() {
                 }
             })
                 .catch((error) => {
-                    setSnackMsg(error.message);
+                    console.log(error)
+                    setSnackMsg("Network Error");
                     setOpenSnack(true);
                     setIsLoading(false)
                 });
@@ -384,50 +386,68 @@ export default function UserManagement() {
         setUserObj({ ...userObj })
     }
 
+    const addData = (key, val) => {
+        dataObj[key] = val;
+        setDataObj({ ...dataObj });
+    }
+
+
+
     const createUserModal = () => {
         return (
             <Modal open={openCreateUserModal}>
-                <div className='ap-userModal-style' >
+                <div className='ap-userModal-style'  >
                     <div className='ap-userModal-content'>
                         <div
                             onClick={() => setOpenCreateUserModal(false)}
                             className='ap-modal-cancel-icon'><CancelIcon /></div>
                         <InputField
-                            onChange={(e) => setInpValue("username", e.target.value)}
-                            value={userObj?.username}
                             icon={AccountCircleIcon}
-                            placeholder='Username' />
-
+                            placeholder="Full Name"
+                            onChange={(e) => addData("username", e.target.value)}
+                        />
                         <InputField
-                            onChange={(e) => setInpValue("firstname", e.target.value)}
-                            value={userObj?.firstname}
-                            icon={AccountCircleIcon} placeholder='First name' />
-
+                            icon={EmailIcon}
+                            placeholder="Email"
+                            onChange={(e) => addData("email", e.target.value)}
+                        />
                         <InputField
-                            onChange={(e) => setInpValue("lastname", e.target.value)}
-                            value={userObj?.lastname}
-                            icon={AccountCircleIcon} placeholder='Last name' />
-
+                            icon={EventIcon}
+                            placeholder="Age"
+                            inputType='number'
+                            onChange={(e) => addData("user_age", e.target.value)}
+                        />
                         <InputField
-                            onChange={(e) => setInpValue("email", e.target.value)}
-                            value={userObj?.email}
-                            icon={EmailIcon} placeholder='Email' />
-
-                        <InputField
-                            onChange={(e) => setInpValue("password", e.target.value)}
-                            value={userObj?.password}
-                            icon={LockIcon} placeholder='Password' isPassword={true} />
-
-                        <Btn label='Create User' onClick={handleCreateUser} />
+                            icon={LockOpenIcon}
+                            placeholder="Password"
+                            isPassword={true}
+                            onChange={(e) => addData("password", e.target.value)}
+                        />
+                        <SelectBox
+                            label="Select Gender"
+                            options={['Male', 'Female']}
+                            onSelect={(val) => addData("user_gender", val)}
+                        />
+                        <SelectBox
+                            label="Select Role"
+                            options={['Student', 'Employer', 'Job Seeker']}
+                            onSelect={(val) => addData("role", val)}
+                        />
+                        <Btn
+                            label='Create User'
+                            onClick={handleCreateUser}
+                        />
                     </div>
                 </div>
             </Modal >
         )
     }
 
-    const setInpValue1 = (key, value) => {
-        editUserObj[key] = value;
-        setEditUserObj({ ...editUserObj })
+
+
+    const addData1 = (key, val) => {
+        editUserObj[key] = val;
+        setDataObj({ ...editUserObj });
     }
 
     const editUser = (item) => {
@@ -437,11 +457,12 @@ export default function UserManagement() {
 
     const handleEditUser = () => {
         setIsLoading(true)
-        const { firstname, lastname, username, email, _id } = editUserObj;
-        if (firstname && lastname && username && email) {
+        const { username, email, password, role, user_id, user_gender, user_age } = editUserObj;
+        if (username && email && password && role && user_id && user_gender && user_age) {
             // api call 
-            putData(`/user/${_id}`, editUserObj).then((response) => {
+            putData(`update_user/${user_id}`, editUserObj).then((response) => {
                 if (response.success) {
+                    console.log("Response", response)
                     setOpenEditUserModal(false)
                     setSnackMsg(response.message);
                     setOpenSnack(true);
@@ -449,13 +470,15 @@ export default function UserManagement() {
                     setIsLoading(false);
                     getUsers()
                 } else {
+                    console.log("Response Error", response)
                     setSnackMsg(response.message);
                     setOpenSnack(true);
                     setIsLoading(false)
                 }
             })
                 .catch((error) => {
-                    setSnackMsg(error.message);
+                    console.log("Error", error)
+                    setSnackMsg(error.msg);
                     setOpenSnack(true);
                     setIsLoading(false)
                 });
@@ -476,26 +499,48 @@ export default function UserManagement() {
                             onClick={() => setOpenEditUserModal(false)}
                             className='ap-modal-cancel-icon'><CancelIcon /></div>
                         <InputField
-                            onChange={(e) => setInpValue1("username", e.target.value)}
+                            icon={AccountCircleIcon}
+                            placeholder="Full Name"
+                            onChange={(e) => addData1("username", e.target.value)}
                             value={editUserObj?.username}
-                            icon={AccountCircleIcon} placeholder='Username' />
-
+                        />
                         <InputField
-                            onChange={(e) => setInpValue1("firstname", e.target.value)}
-                            value={editUserObj?.firstname}
-                            icon={AccountCircleIcon} placeholder='First name' />
-
-                        <InputField
-                            onChange={(e) => setInpValue1("lastname", e.target.value)}
-                            value={editUserObj?.lastname}
-                            icon={AccountCircleIcon} placeholder='Last name' />
-
-                        <InputField
-                            onChange={(e) => setInpValue1("email", e.target.value)}
+                            icon={EmailIcon}
+                            placeholder="Email"
+                            onChange={(e) => addData1("email", e.target.value)}
                             value={editUserObj?.email}
-                            icon={EmailIcon} placeholder='Email' />
+                        />
+                        <InputField
+                            icon={EventIcon}
+                            placeholder="Age"
+                            inputType='number'
+                            onChange={(e) => addData1("user_age", e.target.value)}
+                            value={editUserObj?.user_age}
+                        />
+                        <InputField
+                            icon={LockOpenIcon}
+                            placeholder="Password"
+                            isPassword={true}
+                            onChange={(e) => addData1("password", e.target.value)}
+                            value={editUserObj?.password}
+                        />
+                        <SelectBox
+                            label="Select Gender"
+                            options={['Male', 'Female']}
+                            onSelect={(val) => addData1("user_gender", val)}
+                            selected={editUserObj?.user_gender}
 
-                        <Btn label='Save Changes' onClick={handleEditUser} />
+                        />
+                        <SelectBox
+                            label="Select Role"
+                            options={['Student', 'Employer', 'Job Seeker']}
+                            onSelect={(val) => addData1("role", val)}
+                            selected={editUserObj?.role}
+                        />
+                        <Btn
+                            label='Save Changes'
+                            onClick={handleEditUser}
+                        />
                     </div>
                 </div>
             </Modal >
@@ -586,28 +631,28 @@ export default function UserManagement() {
 
 
 
-    const getRoles = () => {
-        setIsLoading(true)
-        getData(`/role?page=${1}`).then((response) => {
-            if (response.success) {
-                setRoles(response.roles)
-                setIsLoading(false)
-            } else {
-                setSnackMsg(response.message);
-                setOpenSnack(true);
-                setIsLoading(false)
-            }
-        })
-            .catch((error) => {
-                setSnackMsg("Network Error ", error.message);
-                setOpenSnack(true);
-                setIsLoading(false)
-            });
-    }
+    // const getRoles = () => {
+    //     setIsLoading(true)
+    //     getData(`/role?page=${1}`).then((response) => {
+    //         if (response.success) {
+    //             setRoles(response.roles)
+    //             setIsLoading(false)
+    //         } else {
+    //             setSnackMsg(response.message);
+    //             setOpenSnack(true);
+    //             setIsLoading(false)
+    //         }
+    //     })
+    //         .catch((error) => {
+    //             setSnackMsg("Network Error2 ", error.message);
+    //             setOpenSnack(true);
+    //             setIsLoading(false)
+    //         });
+    // }
 
-    useEffect(() => {
-        getRoles();
-    }, [])
+    // useEffect(() => {
+    //     getRoles();
+    // }, [])
 
 
     return (
@@ -617,7 +662,7 @@ export default function UserManagement() {
                     {/* <img src={avatar} alt="avatar" /> */}
                     <div>
                         <div className="dashboard-pd-heading">
-                            <span>Hello, </span>{userData?.firstname + " " + userData?.lastname}
+                            <span>Hello, </span>{userData?.username ?? "Admin"}
                         </div>
                         <div className="dashboard-pd-subHeading">Check your activities in this dashboard.</div>
                     </div>
@@ -631,27 +676,32 @@ export default function UserManagement() {
                 <div className="ap-table-data-header">
                     <div>
                         <div className="ap-table-data-heading">All Users</div>
-                        <div className="ap-table-data-subHeading">Active Users : {totalUsers}</div>
+                        <div className="ap-table-data-subHeading">Total Users : {totalUsers}</div>
                     </div>
-                    <div className='ap-table-data-header-right'>
+                    {/* <div className='ap-table-data-header-right'>
                         <div className="ap1-searchBox">
-                            {/* <img src={search} alt="search" /> */}
+                            <img src={search} alt="search" />
                             <input type="text" placeholder='Search' />
                         </div>
                         <div className="ap1-selectBox">
                             <span> Sort by : </span>
                             Newest  <KeyboardArrowDownIcon />
                         </div>
-                    </div>
+                    </div> */}
                 </div>
                 <div className="table-data-headings-Box">
                     <Grid container spacing={3}>
+                        <Grid item sm={1.25}>
+                            <div className="table-data-heading">
+                                User ID
+                            </div>
+                        </Grid>
                         <Grid item sm={2}>
                             <div className="table-data-heading">
                                 Username
                             </div>
                         </Grid>
-                        <Grid item sm={2.5}>
+                        <Grid item sm={2.25}>
                             <div className="table-data-heading">
                                 Email
                             </div>
@@ -671,7 +721,7 @@ export default function UserManagement() {
                                 Role
                             </div>
                         </Grid>
-                        <Grid item sm={3}>
+                        <Grid item sm={2}>
                             <div className="table-data-heading">
                                 Actions
                             </div>
@@ -684,13 +734,19 @@ export default function UserManagement() {
                             return (
                                 <div key={index} className="table-data-content-item">
                                     <Grid container spacing={3}>
+                                        <Grid item sm={1.25} xs={12}>
+                                            <div className="table-data-item-text">
+                                                <span>User ID: </span>
+                                                {item?.user_id}
+                                            </div>
+                                        </Grid>
                                         <Grid item sm={2} xs={12}>
                                             <div className="table-data-item-text">
                                                 <span>Username: </span>
                                                 {item?.username}
                                             </div>
                                         </Grid>
-                                        <Grid item sm={2.5} xs={12}>
+                                        <Grid item sm={2.25} xs={12}>
                                             <div className="table-data-item-text">
                                                 <span>Email: </span>
                                                 {item?.email}
@@ -714,7 +770,7 @@ export default function UserManagement() {
                                                 {item?.role}
                                             </div>
                                         </Grid>
-                                        <Grid item sm={3} xs={12}>
+                                        <Grid item sm={2} xs={12}>
                                             <div className="table-data-item-btns">
                                                 {/* <div onClick={() => assignRole(item?._id)} className="ap-assign-btn">
                                                     Assign Role
@@ -735,10 +791,10 @@ export default function UserManagement() {
                             )
                         })
                     }
-                    {usersData1 && usersData1.length > 0 &&
+                    {usersData && usersData.length > 0 &&
                         <div className='ap-pagination-style' >
                             <span onClick={handlePrevPage} ><ArrowBackIcon /></span>
-                            <div> Page no.{currentPage} of {Math.ceil(usersData1.length / itemsPerPage)}</div>
+                            <div> Page no.{currentPage} of {Math.ceil(usersData.length / itemsPerPage)}</div>
                             <span onClick={handleNextPage}><ArrowForwardIcon /></span>
                         </div>
                     }

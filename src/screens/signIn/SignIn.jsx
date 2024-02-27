@@ -7,11 +7,25 @@ import EmailIcon from '@mui/icons-material/Email';
 import SelectBox from '../../components/selectBox/SelectBox';
 import Btn from '../../components/btn/Btn';
 import { useNavigate } from 'react-router-dom';
+import Snack from '../../components/snack/Snack';
+import Loader from '../../components/loader/Loader';
+import { postData } from '../../config/apiCalls';
 
 
 export default function SignIn() {
     const navigate = useNavigate();
     const [dataObj, setDataObj] = useState({});
+
+    let [isLoading, setIsLoading] = useState(false);
+    let [openSnack, setOpenSnack] = useState(false);
+    let [severity, setSeverity] = useState('error')
+    let [snackMsg, setSnackMsg] = useState('');
+
+    const handleCloseSnack = () => {
+        setOpenSnack(false);
+        setSnackMsg('');
+        setSeverity('error');
+    }
 
     const addData = (key, val) => {
         dataObj[key] = val;
@@ -19,7 +33,42 @@ export default function SignIn() {
     }
 
     const loginAccount = () => {
-        console.log(dataObj)
+        setIsLoading(true)
+        const { password, email, role } = dataObj;
+
+        if (role && password && email) {
+            // api call 
+            postData('login', dataObj).then((response) => {
+                if (response) {
+                    localStorage.setItem("token", response.token);
+                    localStorage.setItem("user", JSON.stringify(response.user));
+                    setSnackMsg(response.msg);
+                    setOpenSnack(true);
+                    setSeverity('success')
+                    setIsLoading(false)
+                    setTimeout(() => {
+                        navigate('/adminPanel')
+                    }, 2000)
+                } else {
+                    setSnackMsg(response.message);
+                    setOpenSnack(true);
+                    setIsLoading(false)
+
+                }
+            })
+                .catch((error) => {
+                    console.log(error)
+                    setSnackMsg(error.msg ?? "Network Error");
+                    setOpenSnack(true);
+                    setIsLoading(false)
+                });
+        } else {
+            setSnackMsg('Required Fields are missing!')
+            setOpenSnack(true)
+            setIsLoading(false)
+
+        }
+
     }
     return (
         <div>
@@ -53,6 +102,8 @@ export default function SignIn() {
                 <div className="heading2" style={{ color: 'white' }}>Welcome Back</div>
                 <div className="text1">Welcome! Your journey begins here. Sign in with a smile, and let's create beautiful moments together.</div>
             </div>
+            <Snack msg={snackMsg} open={openSnack} onClose={handleCloseSnack} severity={severity} />
+            <Loader isLoading={isLoading} />
         </div>
     )
 }

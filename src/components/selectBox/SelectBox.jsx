@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './SelectBox.css'
 
-export default function SelectBox({ label, options, onSelect }) {
+export default function SelectBox({ label, options, onSelect, selected }) {
 
     let [val, setVal] = useState('');
 
@@ -12,6 +12,13 @@ export default function SelectBox({ label, options, onSelect }) {
             onSelect(e.target.value);
         }
     }
+
+    useEffect(() => {
+        if (selected) {
+            setVal(selected)
+        }
+
+    }, [])
 
     return (
         <div className='selectBox' >
