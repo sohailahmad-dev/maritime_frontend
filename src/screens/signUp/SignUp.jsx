@@ -63,7 +63,7 @@ export default function SignUp() {
             })
                 .catch((error) => {
                     console.log(error)
-                    setSnackMsg("Network Error");
+                    setSnackMsg("This Email is already exist.");
                     setOpenSnack(true);
                     setIsLoading(false)
                 });
