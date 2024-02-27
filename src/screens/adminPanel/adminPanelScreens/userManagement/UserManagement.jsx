@@ -33,197 +33,6 @@ export default function UserManagement() {
     let [totalUsers, setTotalUsers] = useState(0);
     let [limit, setLimit] = useState(0)
     let [usersData, setUsersData] = useState([]);
-    let [usersData1, setUsersData1] = useState([
-        {
-            username: 'Sohail',
-            email: 'soh@gmail.com',
-            role: 'student',
-            user_age: 22,
-            user_gender: 'male',
-        },
-        {
-            username: 'Sohail',
-            email: 'soh@gmail.com',
-            role: 'student',
-            user_age: 22,
-            user_gender: 'male',
-        },
-        {
-            username: 'Sohail',
-            email: 'soh@gmail.com',
-            role: 'student',
-            user_age: 22,
-            user_gender: 'male',
-        },
-        {
-            username: 'Sohail',
-            email: 'soh@gmail.com',
-            role: 'student',
-            user_age: 22,
-            user_gender: 'male',
-        },
-        {
-            username: 'Sohail',
-            email: 'soh@gmail.com',
-            role: 'student',
-            user_age: 22,
-            user_gender: 'male',
-        },
-        {
-            username: 'Ali',
-            email: 'soh@gmail.com',
-            role: 'employer',
-            user_age: 42,
-            user_gender: 'male',
-        },
-        {
-            username: 'Sohail',
-            email: 'soh@gmail.com',
-            role: 'student',
-            user_age: 22,
-            user_gender: 'male',
-        },
-        {
-            username: 'Sohail',
-            email: 'soh@gmail.com',
-            role: 'student',
-            user_age: 22,
-            user_gender: 'male',
-        },
-        {
-            username: 'Sohail',
-            email: 'soh@gmail.com',
-            role: 'student',
-            user_age: 22,
-            user_gender: 'male',
-        },
-        {
-            username: 'Sohail',
-            email: 'soh@gmail.com',
-            role: 'student',
-            user_age: 22,
-            user_gender: 'male',
-        },
-        {
-            username: 'Sohail',
-            email: 'soh@gmail.com',
-            role: 'student',
-            user_age: 22,
-            user_gender: 'male',
-        },
-        {
-            username: 'Ali',
-            email: 'soh@gmail.com',
-            role: 'employer',
-            user_age: 42,
-            user_gender: 'male',
-        },
-        {
-            username: '2nd Page',
-            email: 'soh@gmail.com',
-            role: 'student',
-            user_age: 2,
-            user_gender: 'male',
-        },
-        {
-            username: 'Sohail',
-            email: 'soh@gmail.com',
-            role: 'student',
-            user_age: 22,
-            user_gender: 'male',
-        },
-        {
-            username: 'Sohail',
-            email: 'soh@gmail.com',
-            role: 'student',
-            user_age: 22,
-            user_gender: 'male',
-        },
-        {
-            username: 'Sohail',
-            email: 'soh@gmail.com',
-            role: 'student',
-            user_age: 22,
-            user_gender: 'male',
-        },
-        {
-            username: 'Sohail',
-            email: 'soh@gmail.com',
-            role: 'student',
-            user_age: 22,
-            user_gender: 'male',
-        },
-        {
-            username: 'Ali',
-            email: 'soh@gmail.com',
-            role: 'employer',
-            user_age: 42,
-            user_gender: 'male',
-        },
-        {
-            username: 'Sohail',
-            email: 'soh@gmail.com',
-            role: 'student',
-            user_age: 22,
-            user_gender: 'male',
-        },
-        {
-            username: 'Sohail',
-            email: 'soh@gmail.com',
-            role: 'student',
-            user_age: 22,
-            user_gender: 'male',
-        },
-        {
-            username: 'Sohail',
-            email: 'soh@gmail.com',
-            role: 'student',
-            user_age: 22,
-            user_gender: 'male',
-        },
-        {
-            username: 'Sohail',
-            email: 'soh@gmail.com',
-            role: 'student',
-            user_age: 22,
-            user_gender: 'male',
-        },
-        {
-            username: 'Sohail',
-            email: 'soh@gmail.com',
-            role: 'student',
-            user_age: 22,
-            user_gender: 'male',
-        },
-        {
-            username: 'Ali',
-            email: 'soh@gmail.com',
-            role: 'employer',
-            user_age: 42,
-            user_gender: 'male',
-        },
-        {
-            username: '3rd',
-            email: 'soh@gmail.com',
-            role: 'student',
-            user_age: 22,
-            user_gender: 'male',
-        },
-        {
-            username: 'Sohail',
-            email: 'soh@gmail.com',
-            role: 'student',
-            user_age: 22,
-            user_gender: 'male',
-        },
-        {
-            username: 'Sohail',
-            email: 'soh@gmail.com',
-            role: 'student',
-            user_age: 22,
-            user_gender: 'male',
-        },
-    ]);
     let [openCreateUserModal, setOpenCreateUserModal] = useState(false)
     let [openEditUserModal, setOpenEditUserModal] = useState(false)
     const [dataObj, setDataObj] = useState({
@@ -303,9 +112,8 @@ export default function UserManagement() {
         }
     };
 
-    const isFirstPage = currentPage === 1;
-    const isLastPage = currentPage === Math.ceil(usersData?.length / itemsPerPage);
-
+    // const isFirstPage = currentPage === 1;
+    // const isLastPage = currentPage === Math.ceil(usersData?.length / itemsPerPage);
 
     const handleCloseSnack = () => {
         setOpenSnack(false);
@@ -322,31 +130,6 @@ export default function UserManagement() {
         }
     }, [])
 
-
-
-
-
-    const deleteUser = (id) => {
-        setIsLoading(true)
-        deleteData(`/user/${id}`).then((response) => {
-            if (response.success) {
-                setSnackMsg(response.message);
-                setOpenSnack(true);
-                setSeverity('success');
-                getUsers();
-                setIsLoading(false);
-            } else {
-                setSnackMsg(response.message);
-                setOpenSnack(true);
-                setIsLoading(false);
-            }
-        })
-            .catch((error) => {
-                setSnackMsg("Network Error ", error.message);
-                setOpenSnack(true);
-                setIsLoading(false);
-            });
-    }
 
     const handleCreateUser = () => {
         setIsLoading(true)
@@ -381,17 +164,10 @@ export default function UserManagement() {
         }
     }
 
-    const setInpValue = (key, value) => {
-        userObj[key] = value;
-        setUserObj({ ...userObj })
-    }
-
     const addData = (key, val) => {
         dataObj[key] = val;
         setDataObj({ ...dataObj });
     }
-
-
 
     const createUserModal = () => {
         return (
@@ -430,7 +206,7 @@ export default function UserManagement() {
                         />
                         <SelectBox
                             label="Select Role"
-                            options={['Student', 'Employer', 'Job Seeker']}
+                            options={['Student', 'Employer', 'Job Seeker', 'Admin']}
                             onSelect={(val) => addData("role", val)}
                         />
                         <Btn
@@ -442,8 +218,6 @@ export default function UserManagement() {
             </Modal >
         )
     }
-
-
 
     const addData1 = (key, val) => {
         editUserObj[key] = val;
@@ -462,16 +236,17 @@ export default function UserManagement() {
             // api call 
             putData(`update_user/${user_id}`, editUserObj).then((response) => {
                 if (response.success) {
-                    console.log("Response", response)
-                    setOpenEditUserModal(false)
-                    setSnackMsg(response.message);
+                    // console.log("Response", response)
+                    setOpenEditUserModal(false);
+                    getUsers();
+                    setSnackMsg(response.msg);
                     setOpenSnack(true);
                     setSeverity('success');
                     setIsLoading(false);
                     getUsers()
                 } else {
-                    console.log("Response Error", response)
-                    setSnackMsg(response.message);
+                    // console.log("Response Error", response)
+                    setSnackMsg(response.msg);
                     setOpenSnack(true);
                     setIsLoading(false)
                 }
@@ -533,7 +308,7 @@ export default function UserManagement() {
                         />
                         <SelectBox
                             label="Select Role"
-                            options={['Student', 'Employer', 'Job Seeker']}
+                            options={['Student', 'Employer', 'Job Seeker', 'Admin']}
                             onSelect={(val) => addData1("role", val)}
                             selected={editUserObj?.role}
                         />
@@ -547,112 +322,29 @@ export default function UserManagement() {
         )
     }
 
-    const assignRole = (id) => {
-        setOpenAssignRoleModal(true);
-        setIdForRole(id)
-    }
-
-    let [role, setRole] = useState('');
-    let [idForRole, setIdForRole] = useState('')
-
-    const handleChange = (event) => {
-        setRole(event.target.value);
-    };
-
-    const assignRoleModal = () => {
-        return (
-            <Modal open={openAssignRoleModal}>
-                <div className='ap-userModal-style' >
-                    <div className='ap-userModal-content'>
-                        <div
-                            onClick={() => setOpenAssignRoleModal(false)}
-                            className='ap-modal-cancel-icon'><CancelIcon /></div>
-                        <Box sx={{ width: '90%', margin: '30px 0px' }}>
-                            <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">Role</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={role}
-                                    label="Role"
-                                    onChange={handleChange}
-                                >
-                                    {roles && roles.length > 0 &&
-                                        roles.map((item) => {
-                                            return (
-                                                <MenuItem key={item?._id} value={item?.name}>{item?.name}</MenuItem>
-                                            )
-                                        })
-                                    }
-                                </Select>
-                            </FormControl>
-                        </Box>
-
-                        <Btn label='Assign Role' onClick={handleAssignRole} />
-                    </div>
-                </div>
-            </Modal >
-        )
-    }
-
-    const handleAssignRole = () => {
+    const deleteUser = (id) => {
         setIsLoading(true)
-        const roleObj = {
-            userId: idForRole,
-            name: role
-        }
-        if (idForRole && role) {
-            // api call 
-            postData('/assign-role', roleObj).then((response) => {
-                if (response.success) {
-                    setOpenAssignRoleModal(false)
-                    setSnackMsg(response.message);
-                    setOpenSnack(true);
-                    setSeverity('success');
-                    setIsLoading(false);
-                    getUsers();
-                } else {
-                    setSnackMsg(response.message);
-                    setOpenSnack(true);
-                    setIsLoading(false)
-                }
-            })
-                .catch((error) => {
-                    setSnackMsg(error.message);
-                    setOpenSnack(true);
-                    setIsLoading(false)
-                });
-        } else {
-            setSnackMsg('Required Fields are missing!')
-            setOpenSnack(true)
-            setIsLoading(false)
-        }
+        deleteData(`/delete_user/${id}`).then((response) => {
+            if (response.success) {
+                setSnackMsg(response.msg);
+                setOpenSnack(true);
+                setSeverity('success');
+                getUsers();
+                setIsLoading(false);
+            } else {
+                setSnackMsg(response.msg);
+                setOpenSnack(true);
+                setIsLoading(false);
+            }
+        })
+            .catch((error) => {
+                setSnackMsg(error.msg ?? "Network Error");
+                setOpenSnack(true);
+                setIsLoading(false);
+            });
     }
 
 
-
-    // const getRoles = () => {
-    //     setIsLoading(true)
-    //     getData(`/role?page=${1}`).then((response) => {
-    //         if (response.success) {
-    //             setRoles(response.roles)
-    //             setIsLoading(false)
-    //         } else {
-    //             setSnackMsg(response.message);
-    //             setOpenSnack(true);
-    //             setIsLoading(false)
-    //         }
-    //     })
-    //         .catch((error) => {
-    //             setSnackMsg("Network Error2 ", error.message);
-    //             setOpenSnack(true);
-    //             setIsLoading(false)
-    //         });
-    // }
-
-    // useEffect(() => {
-    //     getRoles();
-    // }, [])
 
 
     return (
@@ -778,7 +470,7 @@ export default function UserManagement() {
                                                 <div onClick={() => editUser(item)} className="ap-edit-btn">
                                                     Edit
                                                 </div>
-                                                <div onClick={() => deleteUser(item?._id)}
+                                                <div onClick={() => deleteUser(item?.user_id)}
                                                     className="ap-delete-btn">
                                                     Delete
                                                 </div>
@@ -803,8 +495,6 @@ export default function UserManagement() {
             </div>
             {createUserModal()}
             {editUserModal()}
-            {assignRoleModal()}
-
             <Snack msg={snackMsg} open={openSnack} onClose={handleCloseSnack} severity={severity} />
             <Loader isLoading={isLoading} />
         </div>
