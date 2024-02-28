@@ -19,10 +19,11 @@ export default function AdminPanel() {
     let [activeMenu, setActiveMenu] = useState('ap-navLinks ap-activeMenu');
     let [handleContent, setHandleContent] = useState('ap-rightSide ap-contractContent');
     let [activeScreen, setActiveScreen] = useState('Dashboard');
+    let [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
     let [userData, setUserData] = useState({});
     let [isLoading, setIsLoading] = useState(false);
     let [openSnack, setOpenSnack] = useState(false);
-    let [severity, setSeverity] = useState('error')
+    let [severity, setSeverity] = useState('error');
     let [snackMsg, setSnackMsg] = useState('');
     const navigate = useNavigate();
 
@@ -49,6 +50,7 @@ export default function AdminPanel() {
             const data = JSON.parse(storedUserData);
             setUserData(data);
             if (data?.role === 'Admin') {
+                setIsAdminLoggedIn(true);
                 setActiveScreen('User Management')
                 navigate('UserManagement')
             } else {
@@ -57,7 +59,7 @@ export default function AdminPanel() {
         } else {
             navigate('/')
         }
-    }, [])
+    }, [isAdminLoggedIn])
 
 
     const handleBtnClick = (e) => {
@@ -102,28 +104,16 @@ export default function AdminPanel() {
 
 
     const handleLogout = () => {
-        setIsLoading(true)
-        getData(`/logout`).then((response) => {
-            if (response.success) {
-                setSnackMsg(response.message);
-                setSeverity('success')
-                setOpenSnack(true);
-                setIsLoading(false);
-                localStorage.removeItem("userData");
-                setTimeout(() => {
-                    navigate('/')
-                }, 1000)
-            } else {
-                setSnackMsg(response.message);
-                setOpenSnack(true);
-                setIsLoading(false)
-            }
-        })
-            .catch((error) => {
-                setSnackMsg("Network Error ", error.message);
-                setOpenSnack(true);
-                setIsLoading(false)
-            });
+        setIsLoading(true);
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+        setSnackMsg("Successfully logged Out");
+        setOpenSnack(true);
+        setSeverity('success')
+        setIsLoading(false)
+        setTimeout(() => {
+            setIsAdminLoggedIn(false);
+        }, 2000)
     }
 
     return (
@@ -154,7 +144,7 @@ export default function AdminPanel() {
                         }
                     </div>
                     <div>
-                        <div onClick={() => { }} className='ap-iconBtn' style={{ marginTop: '-20px' }} >
+                        <div onClick={handleLogout} className='ap-iconBtn' style={{ marginTop: '-20px' }} >
                             {/* <img src={info} alt="icon" width='20px' height='20px' /> */}
                             Logout
                         </div>
