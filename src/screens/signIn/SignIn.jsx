@@ -46,14 +46,18 @@ export default function SignIn() {
                     setOpenSnack(true);
                     setSeverity('success')
                     setIsLoading(false)
+
                     setTimeout(() => {
-                        navigate('/adminPanel')
+                        if (response.user.role === 'Admin') {
+                            navigate('/adminPanel')
+                        } else {
+                            navigate('/')
+                        }
                     }, 2000)
                 } else {
                     setSnackMsg(response.message);
                     setOpenSnack(true);
                     setIsLoading(false)
-
                 }
             })
                 .catch((error) => {

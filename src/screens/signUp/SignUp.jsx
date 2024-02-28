@@ -46,7 +46,7 @@ export default function SignUp() {
             // api call 
             postData('create_user', dataObj).then((response) => {
                 console.log(response)
-                if (response) {
+                if (response.success) {
                     setSnackMsg(response.msg);
                     setOpenSnack(true);
                     setSeverity('success')
@@ -55,15 +55,13 @@ export default function SignUp() {
                         navigate('/SignIn')
                     }, 2000)
                 } else {
-                    setSnackMsg(response.message);
+                    setSnackMsg(response.msg);
                     setOpenSnack(true);
                     setIsLoading(false)
-
                 }
             })
                 .catch((error) => {
-                    console.log(error)
-                    setSnackMsg("This Email is already exist.");
+                    setSnackMsg(error.msg ?? "Network Error");
                     setOpenSnack(true);
                     setIsLoading(false)
                 });

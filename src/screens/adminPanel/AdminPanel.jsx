@@ -20,27 +20,10 @@ export default function AdminPanel() {
     let [handleContent, setHandleContent] = useState('ap-rightSide ap-contractContent');
     let [activeScreen, setActiveScreen] = useState('Dashboard');
     let [userData, setUserData] = useState({});
-
     let [isLoading, setIsLoading] = useState(false);
     let [openSnack, setOpenSnack] = useState(false);
     let [severity, setSeverity] = useState('error')
     let [snackMsg, setSnackMsg] = useState('');
-
-    const handleCloseSnack = () => {
-        setOpenSnack(false);
-        setSnackMsg('');
-        setSeverity('error');
-    }
-
-    useEffect(() => {
-        const storedUserData = localStorage.getItem("user");
-
-        if (storedUserData) {
-            const data = JSON.parse(storedUserData);
-            setUserData(data)
-        }
-    }, [])
-
     const navigate = useNavigate();
 
     const btns = [
@@ -53,6 +36,29 @@ export default function AdminPanel() {
             to: 'StudentManagement',
         },
     ]
+
+    const handleCloseSnack = () => {
+        setOpenSnack(false);
+        setSnackMsg('');
+        setSeverity('error');
+    }
+
+    useEffect(() => {
+        const storedUserData = localStorage.getItem("user");
+        if (storedUserData) {
+            const data = JSON.parse(storedUserData);
+            setUserData(data);
+            if (data?.role === 'Admin') {
+                setActiveScreen('User Management')
+                navigate('UserManagement')
+            } else {
+                navigate('/');
+            }
+        } else {
+            navigate('/')
+        }
+    }, [])
+
 
     const handleBtnClick = (e) => {
         setActiveScreen(e.label);
@@ -93,9 +99,7 @@ export default function AdminPanel() {
         };
     }, []);
 
-    useEffect(() => {
-        navigate('UserManagement')
-    }, [])
+
 
     const handleLogout = () => {
         setIsLoading(true)
@@ -121,8 +125,6 @@ export default function AdminPanel() {
                 setIsLoading(false)
             });
     }
-
-
 
     return (
         <div>
@@ -152,13 +154,11 @@ export default function AdminPanel() {
                         }
                     </div>
                     <div>
-                        <div onClick={handleLogout} className='ap-iconBtn' style={{ marginTop: '-20px' }} >
+                        <div onClick={() => { }} className='ap-iconBtn' style={{ marginTop: '-20px' }} >
                             {/* <img src={info} alt="icon" width='20px' height='20px' /> */}
                             Logout
                         </div>
                     </div>
-
-
                 </div>
                 {/* Main Content of Screeens  */}
                 <div className={handleContent} >

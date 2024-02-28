@@ -44,9 +44,6 @@ export default function UserManagement() {
         username: "",
     });
     let [editUserObj, setEditUserObj] = useState({});
-    let [roles, setRoles] = useState([]);
-    let [openAssignRoleModal, setOpenAssignRoleModal] = useState(false);
-
     let [isLoading, setIsLoading] = useState(false);
     let [openSnack, setOpenSnack] = useState(false);
     let [severity, setSeverity] = useState('error')
@@ -87,7 +84,6 @@ export default function UserManagement() {
         const startIndex = (currentPage - 1) * itemsPerPage;
         const endIndex = startIndex + itemsPerPage;
         const currentUsers = usersData?.slice(startIndex, endIndex);
-        // console.log(currentUsers)
         setUsersToRender(currentUsers);
 
     }, [currentPage, usersData]);
@@ -112,15 +108,11 @@ export default function UserManagement() {
         }
     };
 
-    // const isFirstPage = currentPage === 1;
-    // const isLastPage = currentPage === Math.ceil(usersData?.length / itemsPerPage);
-
     const handleCloseSnack = () => {
         setOpenSnack(false);
         setSnackMsg('');
         setSeverity('error');
     }
-
 
     useEffect(() => {
         const storedUserData = localStorage.getItem("user");
@@ -137,8 +129,7 @@ export default function UserManagement() {
         if (username && password && email && role && user_age && user_gender) {
             // api call 
             postData('create_user', dataObj).then((response) => {
-                console.log(response)
-                if (response) {
+                if (response.success) {
                     setOpenCreateUserModal(false);
                     getUsers();
                     setSnackMsg(response.msg);
@@ -146,14 +137,14 @@ export default function UserManagement() {
                     setSeverity('success');
                     setIsLoading(false);
                 } else {
-                    setSnackMsg(response.message);
+                    setSnackMsg(response.msg);
                     setOpenSnack(true);
                     setIsLoading(false)
                 }
             })
                 .catch((error) => {
-                    console.log(error)
-                    setSnackMsg("Network Error");
+                    setSnackMsg(error.msg ?? "Network Error");
+                    setOpenCreateUserModal(false);
                     setOpenSnack(true);
                     setIsLoading(false)
                 });
@@ -236,7 +227,6 @@ export default function UserManagement() {
             // api call 
             putData(`update_user/${user_id}`, editUserObj).then((response) => {
                 if (response.success) {
-                    // console.log("Response", response)
                     setOpenEditUserModal(false);
                     getUsers();
                     setSnackMsg(response.msg);
@@ -245,15 +235,13 @@ export default function UserManagement() {
                     setIsLoading(false);
                     getUsers()
                 } else {
-                    // console.log("Response Error", response)
                     setSnackMsg(response.msg);
                     setOpenSnack(true);
                     setIsLoading(false)
                 }
             })
                 .catch((error) => {
-                    console.log("Error", error)
-                    setSnackMsg(error.msg);
+                    setSnackMsg(error.msg ?? "Network Error");
                     setOpenSnack(true);
                     setIsLoading(false)
                 });
@@ -344,14 +332,10 @@ export default function UserManagement() {
             });
     }
 
-
-
-
     return (
         <div className='dashboard-ap'>
             <div className="ap-upperMost">
                 <div className="dashboard-pd">
-                    {/* <img src={avatar} alt="avatar" /> */}
                     <div>
                         <div className="dashboard-pd-heading">
                             <span>Hello, </span>{userData?.username ?? "Admin"}
@@ -370,16 +354,6 @@ export default function UserManagement() {
                         <div className="ap-table-data-heading">All Users</div>
                         <div className="ap-table-data-subHeading">Total Users : {totalUsers}</div>
                     </div>
-                    {/* <div className='ap-table-data-header-right'>
-                        <div className="ap1-searchBox">
-                            <img src={search} alt="search" />
-                            <input type="text" placeholder='Search' />
-                        </div>
-                        <div className="ap1-selectBox">
-                            <span> Sort by : </span>
-                            Newest  <KeyboardArrowDownIcon />
-                        </div>
-                    </div> */}
                 </div>
                 <div className="table-data-headings-Box">
                     <Grid container spacing={3}>
@@ -464,9 +438,6 @@ export default function UserManagement() {
                                         </Grid>
                                         <Grid item sm={2} xs={12}>
                                             <div className="table-data-item-btns">
-                                                {/* <div onClick={() => assignRole(item?._id)} className="ap-assign-btn">
-                                                    Assign Role
-                                                </div> */}
                                                 <div onClick={() => editUser(item)} className="ap-edit-btn">
                                                     Edit
                                                 </div>
@@ -474,8 +445,6 @@ export default function UserManagement() {
                                                     className="ap-delete-btn">
                                                     Delete
                                                 </div>
-
-
                                             </div>
                                         </Grid>
                                     </Grid>
@@ -490,7 +459,6 @@ export default function UserManagement() {
                             <span onClick={handleNextPage}><ArrowForwardIcon /></span>
                         </div>
                     }
-
                 </div>
             </div>
             {createUserModal()}
