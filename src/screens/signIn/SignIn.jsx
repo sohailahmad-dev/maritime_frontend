@@ -34,9 +34,9 @@ export default function SignIn() {
 
     const loginAccount = () => {
         setIsLoading(true)
-        const { password, email, role } = dataObj;
+        const { password, email } = dataObj;
 
-        if (role && password && email) {
+        if (password && email) {
             // api call 
             postData('login', dataObj).then((response) => {
                 if (response) {
@@ -46,7 +46,6 @@ export default function SignIn() {
                     setOpenSnack(true);
                     setSeverity('success')
                     setIsLoading(false)
-
                     setTimeout(() => {
                         if (response.user.role === 'Admin') {
                             navigate('/adminPanel')
@@ -89,11 +88,11 @@ export default function SignIn() {
                     isPassword={true}
                     onChange={(e) => addData("password", e.target.value)}
                 />
-                <SelectBox
+                {/* <SelectBox
                     label="Select Role"
                     options={['Student', 'Employer', 'Admin', 'Job Seeker']}
                     onSelect={(e) => addData("role", e)}
-                />
+                /> */}
                 <Btn
                     label='Login'
                     onClick={loginAccount} />
