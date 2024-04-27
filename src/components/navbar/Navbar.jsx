@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import './NavBar.css';
+import './Navbar.css';
 import { useEffect, useState } from "react";
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
