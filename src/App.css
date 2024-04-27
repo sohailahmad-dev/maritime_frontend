@@ -60,6 +60,7 @@ body {
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1), -5px -5px 10px rgba(0, 0, 0, 0.1);
   border-radius: 19px;
   overflow: hidden;
+  /* min-height: 450px; */
 }
 
 .course-card img {
@@ -70,6 +71,12 @@ body {
 .course-card-body {
   padding: 10px 15px;
   padding-bottom: 20px;
+  /* display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  min-height: 230px; */
+  
 }
 
 .course-card-heading {

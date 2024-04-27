@@ -1,0 +1,164 @@
+.footer-main{
+    background-color:var(--accent-bg);
+    position: relative;
+
+    /* background-color: red; */
+}
+
+.footer-pattern1{
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    width: 25%;
+    z-index:-1;
+}
+
+.footer-pattern2{
+    position: absolute;
+    right: 0px;
+    top: 200px;
+    width: 25%;
+    z-index: -1;
+}
+
+
+.footer-upper-left{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100% ;
+}
+
+.footer-upper-left div{
+    line-height: 68px;
+}
+
+.footer-upper-right{
+    background-color: #FFA63D;
+    padding: 5% 15%;
+}
+
+.footer-contact-inputsBox{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.footer-btn{
+    height: 60px;
+    background-color: white;
+    font-family: Poppins-Bold;
+    color: black;
+    min-width: 120px;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.foooter-lower{
+    background-color: black;
+    padding: 5%;
+}
+
+.footer-logo{
+    width: 70px;
+    margin-left: -20px;
+}
+
+.footer-text{
+    font-size: 18px;
+    line-height: 28px;
+    color: lightgray;
+    font-family: SpaceGrotest-Regular;
+}
+
+.footer-right-padding{
+    padding-right: 25%;
+
+}
+
+.footer-social-icons{
+    display: flex;
+    gap: 20px;
+    margin: 20px 0px;
+}
+
+.footer-social-icon-outer{
+    width: 40px;
+    height: 40px;
+}
+
+.footer-social-icon{
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    border: 1px solid lightgray;
+    cursor: pointer;
+}
+
+.footer-social-icon:hover{
+    width: 38px;
+    height: 38px;
+    transition: 0.2s ease-in-out;
+    /* background-color: #FFA63D; */
+}
+
+
+
+.footer-social-icon img{
+    width: 14px;
+}
+
+/* .footer-social-icon img:hover{
+    width: 20px;
+    transition: 0.5s ease-in-out;
+} */
+
+.footer-heading{
+    font-family: Space-Grotesk-Bold;
+    font-size: 22px;
+    line-height: 36px;
+    color: white;
+    margin-bottom: 25px;
+}
+
+.footer-link-text{
+    color:white;
+    font-family: SpaceGrotesk-Regular;
+    font-size: 18px;
+    line-height: 28px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 15px;
+    cursor: pointer;
+}
+
+.footer-item{
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+.footer-lowest{
+    background:black;
+    height: 80px;
+    border-top: 1px solid gray;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 5%;
+}
+
+.footer-lowest-links{
+    display: flex;
+    gap:20px;
+}
+
+.footerLink-hover{
+    cursor: pointer;
+}

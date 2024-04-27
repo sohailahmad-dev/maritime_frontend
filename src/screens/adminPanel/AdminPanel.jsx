@@ -44,22 +44,22 @@ export default function AdminPanel() {
         setSeverity('error');
     }
 
-    useEffect(() => {
-        const storedUserData = localStorage.getItem("user");
-        if (storedUserData) {
-            const data = JSON.parse(storedUserData);
-            setUserData(data);
-            if (data?.role === 'Admin') {
-                setIsAdminLoggedIn(true);
-                setActiveScreen('User Management')
-                navigate('UserManagement')
-            } else {
-                navigate('/');
-            }
-        } else {
-            navigate('/')
-        }
-    }, [isAdminLoggedIn])
+    // useEffect(() => {
+    //     const storedUserData = localStorage.getItem("user");
+    //     if (storedUserData) {
+    //         const data = JSON.parse(storedUserData);
+    //         setUserData(data);
+    //         if (data?.role === 'Admin') {
+    //             setIsAdminLoggedIn(true);
+    //             setActiveScreen('User Management')
+    //             navigate('UserManagement')
+    //         } else {
+    //             navigate('/');
+    //         }
+    //     } else {
+    //         navigate('/')
+    //     }
+    // }, [isAdminLoggedIn])
 
 
     const handleBtnClick = (e) => {

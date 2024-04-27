@@ -45,6 +45,13 @@ export default function NavBar({ active }) {
                 <div>
                     <div className={activeMenu}>
                         <div
+                            className={activeLink === 'Home' ? "link-nb" : "link-nb1"}
+                            onClick={() => {
+                                navigate('/')
+                            }
+                            }
+                        >Home</div>
+                        <div
                             className={activeLink === 'Courses' ? "link-nb" : "link-nb1"}
                             onClick={() => {
                                 navigate('/Courses')
@@ -68,7 +75,7 @@ export default function NavBar({ active }) {
                         <div
                             className={activeLink === 'About Us' ? "link-nb" : "link-nb1"}
                             onClick={() => {
-                                navigate('/About')
+                                navigate('/AboutUs')
                             }
                             }
                         >About Us</div>
