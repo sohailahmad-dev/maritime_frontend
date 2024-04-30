@@ -5,6 +5,8 @@ import SignIn from '../screens/signIn/SignIn'
 import SignUp from '../screens/signUp/SignUp'
 import AdminPanel from '../screens/adminPanel/AdminPanel';
 import AboutUs from '../screens/aboutUs/AboutUs';
+import UserPanel from '../screens/userPanel/UserPanel';
+import JobSeekerPanel from '../screens/jobSeekerPanel/JobSeekerPanel';
 
 
 
@@ -21,6 +23,8 @@ export default function AppRouter() {
                     <Route path='/SignUp' element={<SignUp />}></Route>
                     <Route path='/AboutUs' element={<AboutUs />}></Route>
                     <Route path='AdminPanel/*' element={<AdminPanel />}></Route>
+                    <Route path='UserPanel/*' element={<UserPanel />}></Route>
+                    <Route path='JobSeekerPanel/*' element={<JobSeekerPanel/>}></Route>
                 </Routes>
             </BrowserRouter>
         </>
