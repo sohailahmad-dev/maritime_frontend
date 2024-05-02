@@ -116,7 +116,7 @@ export default function AdminProfile() {
         return (
             <Modal open={openEditUserModal}>
                 <div className='ap-userModal-style' >
-                    <div className='ap-userModal-content'>
+                    <div className='ap-userModal-content' style={{paddingTop:'250px'}}>
                         <div
                             onClick={() => setOpenEditUserModal(false)}
                             className='ap-modal-cancel-icon'><CancelIcon /></div>

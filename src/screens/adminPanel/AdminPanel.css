@@ -294,11 +294,12 @@
 }
 
 .ap-userModal-content{
-    /* height: 95%; */
+    height: 99%;
+    padding-top: 70px;
     overflow-y: scroll;
     display: flex;
     flex-direction: column;
-    
+
 }
 
 
