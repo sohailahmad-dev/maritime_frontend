@@ -1,22 +1,11 @@
 import React, { useEffect, useState } from 'react'
-// import '../dashboard/Dashboard.css'
 import '../../Dashboard.css'
-// import avatar from '../../../assets/img/avatar.png'
-// import search from '../../../assets/img/search.png'
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { Box, FormControl, Grid, InputLabel, MenuItem, Modal, Select } from '@mui/material';
+import {Grid, Modal } from '@mui/material';
 import { deleteData, getData, postData, putData } from '../../../../config/apiCalls';
-// import Snack from '../../../components/snack/Snack';
-// import Loader from '../../../components/loader/Loader';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import InputField from '../../../../components/inputField/InputField';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-// import AccountCircleIcon from '../../../assets/img/accountIcon.png'
-// import passwordIcon from '../../../assets/img/passwordIcon.png'
-// import EmailIcon from '../../../assets/img/mailIcon.png'
-// import Btn from '../../../components/btn/Btn';
-import LockIcon from '@mui/icons-material/Lock';
 import EmailIcon from '@mui/icons-material/Email';
 import CancelIcon from '@mui/icons-material/Cancel';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
@@ -53,7 +42,6 @@ export default function UserManagement() {
         setIsLoading(true)
         getData(`users`).then((response) => {
             if (response.success) {
-                // console.log(response.data)
                 setUsersData(response?.data)
                 setTotalUsers(response?.data.length)
                 setIsLoading(false)
@@ -421,7 +409,7 @@ export default function UserManagement() {
                                         <Grid item sm={1.5} xs={12}>
                                             <div className="table-data-item-text">
                                                 <span>Password: </span>
-                                                123456
+                                                {item?.password}
                                             </div>
                                         </Grid>
                                         <Grid item sm={1.5} xs={12}>

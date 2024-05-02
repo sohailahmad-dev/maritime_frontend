@@ -207,6 +207,7 @@
     background-color: white;
     box-shadow: 5px 10px 20px rgba(0, 0, 0, 0.1);
     padding: 0px 20px;
+    cursor: pointer;
 }
 
 .ap-header-profile-left {
@@ -286,6 +287,18 @@
     top: 0px;
     color: white;
     background-color: #EE786C;
+}
+
+.ap-userModal-style{
+    padding: 20px;
+}
+
+.ap-userModal-content{
+    /* height: 95%; */
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    
 }
 
 

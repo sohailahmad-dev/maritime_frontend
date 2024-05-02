@@ -47,7 +47,7 @@ export default function SignIn() {
                     setSeverity('success')
                     setIsLoading(false)
                     setTimeout(() => {
-                        if (response.user.role === 'Admin') {
+                        if (response.user.role.toLowerCase() === 'admin' ) {
                             navigate('/adminPanel')
                         } else {
                             navigate('/')

@@ -7,6 +7,7 @@ import Snack from '../../components/snack/Snack';
 import Loader from '../../components/loader/Loader';
 import UserManagement from './adminPanelScreens/userManagement/UserManagement';
 import StudentManagment from './adminPanelScreens/studentManagement/StudentManagment';
+import AdminProfile from './adminPanelScreens/adminProfile/AdminProfile';
 
 
 
@@ -44,22 +45,22 @@ export default function AdminPanel() {
         setSeverity('error');
     }
 
-    // useEffect(() => {
-    //     const storedUserData = localStorage.getItem("user");
-    //     if (storedUserData) {
-    //         const data = JSON.parse(storedUserData);
-    //         setUserData(data);
-    //         if (data?.role === 'Admin') {
-    //             setIsAdminLoggedIn(true);
-    //             setActiveScreen('User Management')
-    //             navigate('UserManagement')
-    //         } else {
-    //             navigate('/');
-    //         }
-    //     } else {
-    //         navigate('/')
-    //     }
-    // }, [isAdminLoggedIn])
+    useEffect(() => {
+        const storedUserData = localStorage.getItem("user");
+        if (storedUserData) {
+            const data = JSON.parse(storedUserData);
+            setUserData(data);
+            if (data?.role.toLowerCase() === 'admin') {
+                setIsAdminLoggedIn(true);
+                setActiveScreen('User Management')
+                navigate('UserManagement')
+            } else {
+                navigate('/');
+            }
+        } else {
+            navigate('/')
+        }
+    }, [isAdminLoggedIn])
 
 
     const handleBtnClick = (e) => {
@@ -159,10 +160,12 @@ export default function AdminPanel() {
                             }}>
                                 <MenuIcon sx={{ fontSize: '22px' }} />
                             </div>
-                            {activeScreen}
+                            {/* {activeScreen} */}
                         </div>
                         <div className="ap-header-right">
-                            <div className="ap-header-profile">
+                            <div className="ap-header-profile"
+                            onClick={()=> navigate('AdminProfile')}
+                            >
                                 <div className="ap-header-profile-left">
                                     <div className='ap-header-profile-left-imgBox' >
                                         <img src={"https://tse1.mm.bing.net/th?id=OIP.FUYG2ULJI1LzxUqxK9pCZQHaHa&pid=Api&P=0&h=220"} alt="avatar" />
@@ -174,11 +177,11 @@ export default function AdminPanel() {
                                     </div>
                                 </div>
                                 <div className="ap-header-profile-right">
-                                    {/* <img src={msg} alt="msgs" /> */}
+                                    {/* <img src={msg} alt="msgs" />
                                     <div className="ap-header-profile-right-notificationBox">
-                                        {/* <img src={bellIcon} alt="notifications" /> */}
+                                        <img src={bellIcon} alt="notifications" />
                                         <div>2</div>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </div>
@@ -189,6 +192,7 @@ export default function AdminPanel() {
                         <Route path='UserManagement' element={<UserManagement />}></Route>
                         <Route path='StudentManagement' element={<StudentManagment />}></Route>
                         <Route path='FeatureManagement' element={<SignIn />}></Route>
+                        <Route path='AdminProfile' element={<AdminProfile />}></Route>
                     </Routes>
                 </div>
 
