@@ -125,7 +125,7 @@ export default function SignUp() {
                     <span onClick={() => navigate('/SignIn')} > Sign In</span>
                 </div>
             </div>
-            <div className="signUpLeft" data-aos="fade-right">
+            <div className="signUpLeft" data-aos="fade-right" onClick={() => navigate('/')} >
                 <div className="heading2" style={{ color: 'white' }}>Hello, Friend!</div>
                 <div className="text1">Embark on a new adventure! Sign up and join our vibrant community. Together, let's build memories and share joy. </div>
             </div>

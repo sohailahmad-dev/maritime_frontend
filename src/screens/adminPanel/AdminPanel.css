@@ -297,33 +297,13 @@
 }
 
 .ap-userModal-content{
-    max-height: 80%;
-    height: 80%;
-    padding-top: 70px;
+    max-height: 100%;
     overflow-y: scroll;
     display: flex;
     flex-direction: column;
 }
 
-/* chatgpt  */
 
-.ap-userModal-style {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.5); /* Optional: background overlay for the modal */
-}
-
-.ap-userModal-content {
-    max-height: 80%;
-    width: 80%; /* Adjust width as needed */
-    overflow-y: auto;
-    padding: 20px; /* Uniform padding */
-    background-color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: add shadow */
-    border-radius: 8px; /* Optional: add border radius */
-}
 
 
 @media screen and (max-width:800px) {
