@@ -1,7 +1,7 @@
 import { Grid, Modal } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import './AdminProfile.css'
-import { getData } from '../../../../config/apiCalls';
+import { getData, putData } from '../../../../config/apiCalls';
 import Btn from '../../../../components/btn/Btn';
 import InputField from '../../../../components/inputField/InputField';
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -11,6 +11,8 @@ import EventIcon from '@mui/icons-material/Event';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 
 import SelectBox from '../../../../components/selectBox/SelectBox';
+import Snack from '../../../../components/snack/Snack';
+import Loader from '../../../../components/loader/Loader';
 
 
 export default function AdminProfile() {
@@ -65,13 +67,12 @@ export default function AdminProfile() {
         let currentUser = usersData.filter((user) => user?.email === userData?.email)
         if (currentUser && currentUser.length > 0) {
             setAdminData(currentUser[0])
-            console.log(currentUser[0])
         }
     }, [usersData])
 
     const addData1 = (key, val) => {
         editUserObj[key] = val;
-        setDataObj({ ...editUserObj });
+        setEditUserObj({ ...editUserObj });
     }
 
     const editUser = () => {
@@ -81,14 +82,13 @@ export default function AdminProfile() {
 
     const handleEditUser = () => {
         setIsLoading(true)
-        const { username, email, password, role, user_id, user_gender, user_age } = editUserObj;
-        if (username && email && password && role && user_id && user_gender && user_age) {
+        const { username, email, password, first_name,  last_name, contact_number, admin_id  } = editUserObj;
+        if (username && email && password  && first_name && last_name && contact_number) {
             // api call 
-            putData(`update_user/${user_id}`, editUserObj).then((response) => {
+            putData(`/update_admin/${admin_id}`, editUserObj).then((response) => {
                 if (response.success) {
                     setOpenEditUserModal(false);
-                    getUsers();
-                    setSnackMsg(response.msg);
+                    setSnackMsg(response.message);
                     setOpenSnack(true);
                     setSeverity('success');
                     setIsLoading(false);
@@ -132,25 +132,23 @@ export default function AdminProfile() {
                             onChange={(e) => addData1("email", e.target.value)}
                             value={editUserObj?.email}
                         />
-                        <InputField
-                            icon={EventIcon}
-                            placeholder="Age"
-                            inputType='number'
-                            onChange={(e) => addData1("user_age", e.target.value)}
-                            value={editUserObj?.user_age}
+                         <InputField
+                            icon={AccountCircleIcon}
+                            placeholder="First Name"
+                            onChange={(e) => addData1("first_name", e.target.value)}
+                            value={editUserObj?.first_name}
+                        />
+                         <InputField
+                            icon={AccountCircleIcon}
+                            placeholder="Last Name"
+                            onChange={(e) => addData1("last_name", e.target.value)}
+                            value={editUserObj?.last_name}
                         />
                         <InputField
-                            icon={EmailIcon}
-                            placeholder="Email"
-                            onChange={(e) => addData1("email", e.target.value)}
-                            value={editUserObj?.email}
-                        />
-                        <InputField
                             icon={EventIcon}
-                            placeholder="Age"
-                            inputType='number'
-                            onChange={(e) => addData1("user_age", e.target.value)}
-                            value={editUserObj?.user_age}
+                            placeholder="Contact Number"
+                            onChange={(e) => addData1("contact_number", e.target.value)}
+                            value={editUserObj?.contact_number}
                         />
                         <InputField
                             icon={LockOpenIcon}
@@ -158,19 +156,6 @@ export default function AdminProfile() {
                             isPassword={true}
                             onChange={(e) => addData1("password", e.target.value)}
                             value={editUserObj?.password}
-                        />
-                        <SelectBox
-                            label="Select Gender"
-                            options={['Male', 'Female']}
-                            onSelect={(val) => addData1("user_gender", val)}
-                            selected={editUserObj?.user_gender}
-
-                        />
-                        <SelectBox
-                            label="Select Role"
-                            options={['Student', 'Employer', 'Job Seeker', 'Admin']}
-                            onSelect={(val) => addData1("role", val)}
-                            selected={editUserObj?.role}
                         />
                         <Btn
                             label='Save Changes'
@@ -250,6 +235,8 @@ export default function AdminProfile() {
                 </Grid>
             </Grid>
             {editUserModal()}
+            <Snack msg={snackMsg} open={openSnack} onClose={handleCloseSnack} severity={severity} />
+            <Loader isLoading={isLoading} />
         </div>
     )
 } 
