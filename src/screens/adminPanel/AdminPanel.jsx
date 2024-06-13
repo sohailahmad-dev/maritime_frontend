@@ -8,6 +8,7 @@ import Loader from '../../components/loader/Loader';
 import UserManagement from './adminPanelScreens/userManagement/UserManagement';
 import StudentManagment from './adminPanelScreens/studentManagement/StudentManagment';
 import AdminProfile from './adminPanelScreens/adminProfile/AdminProfile';
+import CourseManagement from './adminPanelScreens/courseManagement/CourseManagement';
 
 
 
@@ -34,8 +35,8 @@ export default function AdminPanel() {
             to: 'UserManagement',
         },
         {
-            label: 'Student Management',
-            to: 'StudentManagement',
+            label: 'Course Management',
+            to: 'CourseManagement',
         },
     ]
 
@@ -189,8 +190,7 @@ export default function AdminPanel() {
 
                     <Routes>
                         <Route path='UserManagement' element={<UserManagement />}></Route>
-                        <Route path='UserManagement' element={<UserManagement />}></Route>
-                        <Route path='StudentManagement' element={<StudentManagment />}></Route>
+                        <Route path='CourseManagement' element={<CourseManagement />}></Route>
                         <Route path='FeatureManagement' element={<SignIn />}></Route>
                         <Route path='AdminProfile' element={<AdminProfile />}></Route>
                     </Routes>
