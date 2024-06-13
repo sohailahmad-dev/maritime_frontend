@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import '../../Dashboard.css'
-import {Grid, Modal } from '@mui/material';
+import { Grid, Modal } from '@mui/material';
 import { deleteData, getData, postData, putData } from '../../../../config/apiCalls';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
@@ -14,13 +14,13 @@ import Snack from '../../../../components/snack/Snack';
 import Loader from '../../../../components/loader/Loader';
 import Btn from '../../../../components/btn/Btn';
 import SelectBox from '../../../../components/selectBox/SelectBox';
+import Chart from 'chart.js/auto'
+import { Bar, Doughnut, Line } from 'react-chartjs-2';
 
 export default function UserManagement() {
 
     let [userData, setUserData] = useState({});
-    let [pageNumber, setPageNumber] = useState(1);
     let [totalUsers, setTotalUsers] = useState(0);
-    let [limit, setLimit] = useState(0)
     let [usersData, setUsersData] = useState([]);
     let [openCreateUserModal, setOpenCreateUserModal] = useState(false)
     let [openEditUserModal, setOpenEditUserModal] = useState(false)
@@ -320,6 +320,53 @@ export default function UserManagement() {
             });
     }
 
+    function countUserTypes(users) {
+        // Initialize an object to store counts
+        let counts = {
+            "admins": 0,
+            "student": 0,
+            "job seeker": 0,
+            "employer": 0
+        };
+
+        // Count occurrences of each role type (case insensitive)
+        users.forEach(user => {
+            // Convert user's role to lowercase for case insensitivity
+            let roleLower = user.role.toLowerCase();
+
+            switch (roleLower) {
+                case "admin":
+                    counts["admins"]++;
+                    break;
+                case "student":
+                    counts["student"]++;
+                    break;
+                case "jobseeker":
+                    counts["job seeker"]++;
+                    break;
+                case "employer":
+                    counts["employer"]++;
+                    break;
+                default:
+                    // Handle unexpected roles if necessary
+                    break;
+            }
+        });
+
+        // Convert counts object to the desired format (array of objects)
+        const result = Object.keys(counts).map(key => {
+            return {
+                "label": key.charAt(0).toUpperCase() + key.slice(1), // Capitalize the first letter
+                "value": counts[key]
+            };
+        });
+
+        return result;
+    }
+
+    let sourceData = countUserTypes(usersData);
+
+
     return (
         <div className='dashboard-ap'>
             <div className="ap-upperMost">
@@ -334,6 +381,47 @@ export default function UserManagement() {
                 <div>
                     <div onClick={() => setOpenCreateUserModal(true)} className="ap-add-user-btn">Add User</div>
                 </div>
+            </div>
+            <div className="graphs">
+                <Grid container spacing={5}>
+                    <Grid item md={7.5} xs={12}>
+                        <div className="bar-chart">
+                            <Bar
+                                data={{
+                                    labels: sourceData.map((data) => data.label),
+                                    datasets: [
+                                        {
+                                            label: "Count",
+                                            data: sourceData.map((data) => data.value),
+                                            backgroundColor: [
+                                                "rgba(43, 63, 229, 0.8)",
+                                                "rgba(250, 192, 19, 0.8)",
+                                                "rgba(253, 135, 135, 0.8)",
+                                                "rgba(253, 235, 125, 0.8)",
+                                            ],
+                                            borderRadius: 2,
+                                        },
+                                    ],
+                                }}
+                            />
+                        </div>
+                    </Grid>
+                    <Grid item md={4.5} xs={12}>
+                        <div className="bar-chart">
+                        <Doughnut
+                                data={{
+                                    labels: sourceData.map((data) => data.label),
+                                    datasets: [
+                                        {
+                                            label: "Count",
+                                            data: sourceData.map((data) => data.value),
+                                        },
+                                    ],
+                                }}
+                            />
+                        </div>
+                    </Grid>
+                </Grid>
             </div>
 
             <div className="ap-table-data">

@@ -8,6 +8,15 @@
 
 } */
 
+.graphs{
+    margin-top: 50px;
+}
+.bar-chart{
+    box-shadow: 2px 10px 15px rgba(0, 0, 0, 0.1);
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
 .ap-leftBox {
     display: flex;
     align-items: center;
