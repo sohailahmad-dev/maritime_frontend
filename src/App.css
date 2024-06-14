@@ -54,6 +54,29 @@ body {
 
 }
 
+.text-center{
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+.mb-10{
+  margin-bottom: 10px;
+}
+
+.mb-20{
+  margin-bottom: 20px;
+}
+.mb-30{
+  margin-bottom: 30px;
+}
+.mb-40{
+  margin-bottom: 40px;
+}
+.mb-50{
+  margin-bottom: 50px;
+}
+
 .course-card {
   background-color: #F1F1FB;
   background-color: white;
@@ -71,18 +94,18 @@ body {
 .course-card-body {
   padding: 10px 15px;
   padding-bottom: 20px;
-  /* display: flex;
+  display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  min-height: 230px; */
+  min-height: 220px;
   
 }
 
 .course-card-heading {
   font-size: 18px;
   font-family: Poppins-SemiBold, 'Courier New', Courier, monospace;
-  min-height: 50px;
+  /* min-height: 50px; */
 }
 
 .course-card-descripiton {
@@ -380,9 +403,11 @@ body {
 }
 
 .ap-modal-cancel-icon {
-  margin-top: -25px;
-  margin-left: -20px;
+  /* margin-top: -25px; */
+  /* margin-left: -20px; */
+  padding: 10px;
   cursor: pointer;
+  width: 40px;
 }
 
 .ap-modal-cancel-icon:hover {
