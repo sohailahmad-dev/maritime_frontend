@@ -7,13 +7,15 @@ import { Grid, Modal, TextField } from '@mui/material';
 import Card from '../../../../components/card/Card';
 import Btn from '../../../../components/btn/Btn';
 import CancelIcon from '@mui/icons-material/Cancel';
+import { useNavigate } from 'react-router-dom';
 
 
 const CourseManagement = () => {
   let [isAdding, setIsAdding] = useState(false);
   let [isEditing, setIsEditing] = useState(false);
-
   let [courses, setCourses] = useState([]);
+  const navigate = useNavigate();
+
   let [isLoading, setIsLoading] = useState(false);
   let [openSnack, setOpenSnack] = useState(false);
   let [severity, setSeverity] = useState('error')
@@ -82,7 +84,7 @@ const CourseManagement = () => {
     }
 
     try {
-      const response = await axios.post(`${API_BASE_URL}/course`, formData, {
+      const response = await axios.post(`${API_BASE_URL}course`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -100,7 +102,9 @@ const CourseManagement = () => {
         instructor: ''
       });
       setFiles([]);
+      setIsAdding(false);
     } catch (error) {
+      console.log(error)
       setIsLoading(false);
       setSnackMsg('Error creating course. Please try again.')
       setOpenSnack(true);
@@ -115,7 +119,7 @@ const CourseManagement = () => {
             <div
               onClick={() => setIsEditing(false)}
               className='ap-modal-cancel-icon'
-              ><CancelIcon /></div>
+            ><CancelIcon /></div>
             <Grid container spacing={5} >
               <Grid item sm={6} xs={12}>
                 <TextField
@@ -232,24 +236,30 @@ const CourseManagement = () => {
   const handleDelete = (id) => {
     setIsLoading(true)
     deleteData(`/course/${id}`).then((response) => {
-        if (response.success) {
-            setSnackMsg(response.message );
-            setOpenSnack(true);
-            setSeverity('success');
-            getCourses();
-            setIsLoading(false);
-        } else {
-            setSnackMsg(response.error);
-            setOpenSnack(true);
-            setIsLoading(false);
-        }
+      if (response.success) {
+        setSnackMsg(response.message);
+        setOpenSnack(true);
+        setSeverity('success');
+        getCourses();
+        setIsLoading(false);
+      } else {
+        setSnackMsg(response.error);
+        setOpenSnack(true);
+        setIsLoading(false);
+      }
     })
-        .catch((error) => {
-            setSnackMsg(error.error ?? error.msg ?? "Network Error");
-            setOpenSnack(true);
-            setIsLoading(false);
-        });
-}
+      .catch((error) => {
+        setSnackMsg(error.error ?? error.msg ?? "Network Error");
+        setOpenSnack(true);
+        setIsLoading(false);
+      });
+  }
+
+  const handleDetail = (course) => {
+    navigate('/adminPanel/CardDetails', {
+      state: course
+    })
+  }
 
   return (
     <>
@@ -335,7 +345,8 @@ const CourseManagement = () => {
                     duration={e?.duaration}
                     showControls={true}
                     onEdit={() => handleEdit(e)}
-                    onDelete={()=>handleDelete(e?.course_id)}
+                    onDelete={() => handleDelete(e?.course_id)}
+                    onDetail={() => handleDetail(e)}
                   // img={e?.image_url}
                   />
                 </Grid>

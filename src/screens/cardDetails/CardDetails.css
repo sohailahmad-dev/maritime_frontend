@@ -1,0 +1,15 @@
+.cardDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-bottom: 50px;
+}
+
+.cardDetail-item {
+    font-family: Poppins-Bold;
+}
+
+
+.cardDetail-item span {
+    font-family: Poppins-Regular;
+}

@@ -9,6 +9,8 @@ import UserManagement from './adminPanelScreens/userManagement/UserManagement';
 import StudentManagment from './adminPanelScreens/studentManagement/StudentManagment';
 import AdminProfile from './adminPanelScreens/adminProfile/AdminProfile';
 import CourseManagement from './adminPanelScreens/courseManagement/CourseManagement';
+import CardDetails from '../cardDetails/CardDetails';
+import TrainingManagement from './adminPanelScreens/trainingManagement/TrainingManagement';
 
 
 
@@ -37,6 +39,10 @@ export default function AdminPanel() {
         {
             label: 'Course Management',
             to: 'CourseManagement',
+        },
+        {
+            label: 'Training Management',
+            to: 'TrainingManagement',
         },
     ]
 
@@ -165,7 +171,7 @@ export default function AdminPanel() {
                         </div>
                         <div className="ap-header-right">
                             <div className="ap-header-profile"
-                            onClick={()=> navigate('AdminProfile')}
+                                onClick={() => navigate('AdminProfile')}
                             >
                                 <div className="ap-header-profile-left">
                                     <div className='ap-header-profile-left-imgBox' >
@@ -191,7 +197,8 @@ export default function AdminPanel() {
                     <Routes>
                         <Route path='UserManagement' element={<UserManagement />}></Route>
                         <Route path='CourseManagement' element={<CourseManagement />}></Route>
-                        <Route path='FeatureManagement' element={<SignIn />}></Route>
+                        <Route path='TrainingManagement' element={<TrainingManagement />}></Route>
+                        <Route path='CardDetails' element={<CardDetails />}></Route>
                         <Route path='AdminProfile' element={<AdminProfile />}></Route>
                     </Routes>
                 </div>

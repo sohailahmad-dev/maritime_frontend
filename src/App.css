@@ -20,6 +20,11 @@
   src: url('/font/Poppins/Poppins-SemiBold.ttf');
 }
 
+@font-face {
+  font-family: Poppins-Bold;
+  src: url('/font/Poppins/Poppins-Bold.ttf');
+}
+
 * {
   margin: 0px;
   padding: 0px;
@@ -54,26 +59,29 @@ body {
 
 }
 
-.text-center{
+.text-center {
   text-align: center;
   display: flex;
   justify-content: center;
 }
 
-.mb-10{
+.mb-10 {
   margin-bottom: 10px;
 }
 
-.mb-20{
+.mb-20 {
   margin-bottom: 20px;
 }
-.mb-30{
+
+.mb-30 {
   margin-bottom: 30px;
 }
-.mb-40{
+
+.mb-40 {
   margin-bottom: 40px;
 }
-.mb-50{
+
+.mb-50 {
   margin-bottom: 50px;
 }
 
@@ -99,7 +107,7 @@ body {
   justify-content: space-between;
   height: 100%;
   min-height: 220px;
-  
+
 }
 
 .course-card-heading {
@@ -114,7 +122,10 @@ body {
 
 .course-card-btns-box {
   display: flex;
-  gap: 25px;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 5px;
 }
 
 .course-card-btn {
