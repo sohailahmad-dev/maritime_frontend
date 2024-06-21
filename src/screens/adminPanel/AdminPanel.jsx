@@ -11,6 +11,7 @@ import AdminProfile from './adminPanelScreens/adminProfile/AdminProfile';
 import CourseManagement from './adminPanelScreens/courseManagement/CourseManagement';
 import CardDetails from '../cardDetails/CardDetails';
 import TrainingManagement from './adminPanelScreens/trainingManagement/TrainingManagement';
+import JobManagement from './adminPanelScreens/jobManagement/JobManagement';
 
 
 
@@ -43,6 +44,10 @@ export default function AdminPanel() {
         {
             label: 'Training Management',
             to: 'TrainingManagement',
+        },
+        {
+            label: 'Job Management',
+            to: 'JobManagement',
         },
     ]
 
@@ -198,6 +203,7 @@ export default function AdminPanel() {
                         <Route path='UserManagement' element={<UserManagement />}></Route>
                         <Route path='CourseManagement' element={<CourseManagement />}></Route>
                         <Route path='TrainingManagement' element={<TrainingManagement />}></Route>
+                        <Route path='JobManagement' element={<JobManagement/>}></Route>
                         <Route path='CardDetails' element={<CardDetails />}></Route>
                         <Route path='AdminProfile' element={<AdminProfile />}></Route>
                     </Routes>
