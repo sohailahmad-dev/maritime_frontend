@@ -337,6 +337,7 @@ const TrainingManagement = () => {
                 <Grid container spacing={5}>
                     {programs && programs.length > 0 &&
                         programs.map((e, i) => {
+                            console.log(e?.img_url)
                             return (
                                 <Grid item key={i} md={4} sm={6} xs={12}>
                                     <Card
@@ -347,7 +348,7 @@ const TrainingManagement = () => {
                                         onEdit={() => handleEdit(e)}
                                         onDelete={() => handleDelete(e?.program_id)}
                                         onDetail={() => handleDetail(e)}
-                                    // img={e?.image_url}
+                                         img={e?.img_url}
                                     />
                                 </Grid>
                             )

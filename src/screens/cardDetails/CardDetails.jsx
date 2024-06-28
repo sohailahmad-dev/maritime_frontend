@@ -12,7 +12,7 @@ export default function CardDetails() {
     }, [])
     return (
         <div className='cardDetails'>
-            <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2Z-Viu23Zi9aepAkisUn3zQAUzGBys45htQ&s' alt="img" />
+            <img src={item?.image_url ?? item?.img_url ?? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2Z-Viu23Zi9aepAkisUn3zQAUzGBys45htQ&s'} alt="img" />
             {item?.trainer ? <>
                 <div className='cardDetail-item'>
                     Training Program Name: <span>{item?.program_name}</span>

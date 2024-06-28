@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { API_BASE_URL, deleteData, getData } from '../../../../config/apiCalls';
+import { API_BASE_URL, deleteData, getData, postData, putData } from '../../../../config/apiCalls';
 import Snack from '../../../../components/snack/Snack';
 import Loader from '../../../../components/loader/Loader';
 import { Grid, Modal, TextField } from '@mui/material';
-import Card from '../../../../components/card/Card';
 import Btn from '../../../../components/btn/Btn';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { useNavigate } from 'react-router-dom';
+import JobCard from '../../../../components/jobCard/JobCard';
 
 
 const JobManagement = () => {
@@ -52,19 +52,24 @@ const JobManagement = () => {
     }, [])
 
     // program creation handling 
-    const [programData, setProgramData] = useState({
+    const [jobData, setJobData] = useState({
         job_title: '',
-        description: '',
-        duration: '',
-        trainer: ''
+        job_description: '',
+        requirements: '',
+        salary: '',
+        location: '',
+        PostingDate: '',
+        ExpiryDate: '',
+        employer_id: '',
+        location: '',
     });
     const [files, setFiles] = useState([]);
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
 
     const handleChange = (e) => {
-        setProgramData({
-            ...programData,
+        setJobData({
+            ...jobData,
             [e.target.name]: e.target.value
         });
     };
@@ -73,44 +78,57 @@ const JobManagement = () => {
         setFiles(e.target.files);
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const formData = new FormData();
-        formData.append('job_title', programData.job_title);
-        formData.append('description', programData.description);
-        formData.append('duration', programData.duration);
-        formData.append('trainer', programData.trainer);
-        for (let i = 0; i < files.length; i++) {
-            formData.append('files', files[i]);
-        }
+    const handleSubmit = () => {
+        setIsLoading(true)
+        const { job_title, job_description, requirements, salary, location, PostingDate, ExpiryDate, employer_id } = jobData;
 
-        try {
-            const response = await axios.post(`${API_BASE_URL}program`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
+        console.log(jobData)
+
+        if (job_title && job_description && requirements && salary && location && PostingDate && ExpiryDate && employer_id) {
+            // api call 
+            postData('create_job', jobData).then((response) => {
+                console.log(response)
+                if (response.success) {
+                    setIsLoading(false);
+                    setSeverity('success')
+                    setSnackMsg('Job Added Successfully.');
+                    setOpenSnack(true);
+                    getjobs();
+
+                    // Optionally, reset form fields here
+                    setJobData({
+                        job_title: '',
+                        job_description: '',
+                        requirements: '',
+                        salary: '',
+                        location: '',
+                        PostingDate: '',
+                        ExpiryDate: '',
+                        employer_id: '',
+                        location
+                    });
+                    setFiles([]);
+                    setIsAdding(false);
+
+                } else {
+                    setSnackMsg(response.msg ?? 'Error in Adding Job');
+                    setOpenSnack(true);
+                    setIsLoading(false)
                 }
-            });
-            setIsLoading(false);
-            setSeverity('success')
-            setSnackMsg('program Added Successfully.');
-            setOpenSnack(true);
-            getjobs();
-            // Optionally, reset form fields here
-            setProgramData({
-                job_title: '',
-                description: '',
-                duration: '',
-                trainer: ''
-            });
-            setFiles([]);
-            setIsAdding(false);
-        } catch (error) {
-            console.log(error)
-            setIsLoading(false);
-            setSnackMsg('Error creating program. Please try again.')
-            setOpenSnack(true);
+            })
+                .catch((error) => {
+                    setSnackMsg(error.msg ?? "Network Error");
+                    setOpenSnack(true);
+                    setIsLoading(false)
+                });
+        } else {
+            setSnackMsg('Required Fields are missing!')
+            setOpenSnack(true)
+            setIsLoading(false)
+
         }
-    };
+    }
+
 
     const editModal = () => {
         return (
@@ -124,54 +142,80 @@ const JobManagement = () => {
                         <Grid container spacing={5} >
                             <Grid item sm={6} xs={12}>
                                 <TextField
-                                    label="Program Name"
+                                    label="Job Title"
                                     variant='outlined'
                                     type="text"
                                     name="job_title"
                                     fullWidth
-                                    value={programData.job_title}
+                                    value={jobData?.job_title}
                                     onChange={handleChange}
                                 />
                             </Grid>
                             <Grid item sm={6} xs={12}>
                                 <TextField
-                                    label="Trainer Name"
+                                    label="Salary"
                                     variant='outlined'
                                     fullWidth
-                                    type="text" name="trainer" value={programData.trainer} onChange={handleChange}
+                                    type="text" name="salary" value={jobData?.salary} onChange={handleChange}
                                 />
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
-                                    label="Program Description"
+                                    label="Job Descritpion"
                                     variant='outlined'
                                     fullWidth
                                     multiline
-                                    name="description" value={programData.description}
+                                    name="job_description" value={jobData?.job_description}
                                     onChange={handleChange}
                                 />
                             </Grid>
-                            <Grid item sm={6} xs={12}>
+                            <Grid item xs={12}>
                                 <TextField
-                                    label="Program Duration"
+                                    label="Requirements"
                                     variant='outlined'
                                     fullWidth
-                                    type="text" name="duration" value={programData.duration} onChange={handleChange}
+                                    type="text" name="requirements" value={jobData?.requirements} onChange={handleChange}
                                 />
                             </Grid>
                             <Grid item sm={6} xs={12}>
                                 <TextField
-                                    // label="program Duration"
+                                    label="Location"
                                     variant='outlined'
                                     fullWidth
-                                    type="file" name="files" multiple onChange={handleFileChange}
+                                    type="text" name="location" value={jobData?.location} onChange={handleChange}
                                 />
                             </Grid>
+                            <Grid item sm={6} xs={12}>
+                                <TextField
+                                    label="Employer Id"
+                                    variant='outlined'
+                                    fullWidth
+                                    type="number" name="employer_id" value={jobData?.employer_id} onChange={handleChange}
+                                />
+                            </Grid>
+                            <Grid item sm={6} xs={12}>
+                                <TextField
+                                    label="Posting Date"
+                                    variant='outlined'
+                                    fullWidth
+                                    type="text" name="PostingDate" value={jobData?.PostingDate} onChange={handleChange}
+                                />
+                            </Grid>
+                            <Grid item sm={6} xs={12}>
+                                <TextField
+                                    label="Expiry Date"
+                                    variant='outlined'
+                                    fullWidth
+                                    type="text" name="ExpiryDate" value={jobData?.ExpiryDate} onChange={handleChange}
+                                />
+                            </Grid>
+
                             <Grid item xs={12}>
                                 <div className='text-center'>
                                     <Btn
-                                        label='Save Program'
+                                        label='Update Job'
                                         onClick={handleEditSubmit}
+
                                     />
                                 </div>
                             </Grid>
@@ -184,59 +228,62 @@ const JobManagement = () => {
     }
 
     const handleEdit = (e) => {
-        setProgramData({
-            job_title: e?.job_title,
-            description: e?.description,
-            duration: e?.duration,
-            trainer: e?.trainer,
-            program_id: e?.program_id,
-        });
-        // setFiles([...e?.image_url]);
+        setJobData({ ...e });
         setIsEditing(true);
     }
 
-    const handleEditSubmit = async (e) => {
-        e.preventDefault();
-        const formData = new FormData();
-        formData.append('job_title', programData.job_title);
-        formData.append('description', programData.description);
-        formData.append('duration', programData.duration);
-        formData.append('trainer', programData.trainer);
-        for (let i = 0; i < files.length; i++) {
-            formData.append('files', files[i]);
-        }
+    const handleEditSubmit = () => {
+        setIsLoading(true)
+        const { job_title, job_description, requirements, salary, location, PostingDate, ExpiryDate, employer_id } = jobData;
 
-        try {
-            const response = await axios.put(`${API_BASE_URL}program/${programData?.program_id}`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
+        console.log(jobData)
+
+        if (job_title && job_description && requirements && salary && location && PostingDate && ExpiryDate && employer_id) {
+            // api call 
+            putData(`update_job/${jobData?.job_id}`, jobData).then((response) => {
+                console.log(response)
+                if (response.success) {
+                    setIsLoading(false);
+                    setSeverity('success')
+                    setSnackMsg('Job Updated Successfully.');
+                    setOpenSnack(true);
+                    getjobs();
+                    setIsEditing(false)
+                    // Optionally, reset form fields here
+                    setJobData({
+                        job_title: '',
+                        job_description: '',
+                        requirements: '',
+                        salary: '',
+                        location: '',
+                        PostingDate: '',
+                        ExpiryDate: '',
+                        employer_id: '',
+                        location
+                    });
+                } else {
+                    setSnackMsg(response.msg ?? 'Error in Updating Job');
+                    setOpenSnack(true);
+                    setIsLoading(false)
                 }
-            });
-            setIsLoading(false);
-            setSeverity('success')
-            setSnackMsg('program Saved Successfully.');
-            setOpenSnack(true);
-            getjobs();
-            // Optionally, reset form fields here
-            setIsEditing(false)
-            setProgramData({
-                job_title: '',
-                description: '',
-                duration: '',
-                trainer: ''
-            });
-            setFiles([]);
-        } catch (error) {
-            console.log(error)
-            setIsLoading(false);
-            setSnackMsg('Error in editing program. Please try again.')
-            setOpenSnack(true);
+            })
+                .catch((error) => {
+                    setSnackMsg(error.msg ?? "Network Error");
+                    setOpenSnack(true);
+                    setIsLoading(false)
+                });
+        } else {
+            setSnackMsg('Required Fields are missing!')
+            setOpenSnack(true)
+            setIsLoading(false)
+
         }
-    };
+    }
+
 
     const handleDelete = (id) => {
         setIsLoading(true)
-        deleteData(`/program/${id}`).then((response) => {
+        deleteData(`/delete_job/${id}`).then((response) => {
             if (response.success) {
                 setSnackMsg(response.message);
                 setOpenSnack(true);
@@ -280,55 +327,80 @@ const JobManagement = () => {
                 <Grid container spacing={5} >
                     <Grid item sm={6} xs={12}>
                         <TextField
-                            label="Program Name"
+                            label="Job Title"
                             variant='outlined'
                             type="text"
                             name="job_title"
                             fullWidth
-                            value={programData.job_title}
+                            value={jobData?.job_title}
                             onChange={handleChange}
                         />
                     </Grid>
                     <Grid item sm={6} xs={12}>
                         <TextField
-                            label="Trainer Name"
+                            label="Salary"
                             variant='outlined'
                             fullWidth
-                            type="text" name="trainer" value={programData.trainer} onChange={handleChange}
+                            type="text" name="salary" value={jobData?.salary} onChange={handleChange}
                         />
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
-                            label="Program Description"
+                            label="Job Descritpion"
                             variant='outlined'
                             fullWidth
                             multiline
-                            name="description" value={programData.description}
+                            name="job_description" value={jobData?.job_description}
                             onChange={handleChange}
                         />
                     </Grid>
-                    <Grid item sm={6} xs={12}>
+                    <Grid item xs={12}>
                         <TextField
-                            label="Program Duration"
+                            label="Requirements"
                             variant='outlined'
                             fullWidth
-                            type="text" name="duration" value={programData.duration} onChange={handleChange}
+                            type="text" name="requirements" value={jobData?.requirements} onChange={handleChange}
                         />
                     </Grid>
                     <Grid item sm={6} xs={12}>
                         <TextField
-                            // label="program Duration"
+                            label="Location"
                             variant='outlined'
                             fullWidth
-                            type="file" name="files" multiple onChange={handleFileChange}
+                            type="text" name="location" value={jobData?.location} onChange={handleChange}
                         />
                     </Grid>
+                    <Grid item sm={6} xs={12}>
+                        <TextField
+                            label="Employer Id"
+                            variant='outlined'
+                            fullWidth
+                            type="number" name="employer_id" value={jobData?.employer_id} onChange={handleChange}
+                        />
+                    </Grid>
+                    <Grid item sm={6} xs={12}>
+                        <TextField
+                            label="Posting Date"
+                            variant='outlined'
+                            fullWidth
+                            type="text" name="PostingDate" value={jobData?.PostingDate} onChange={handleChange}
+                        />
+                    </Grid>
+                    <Grid item sm={6} xs={12}>
+                        <TextField
+                            label="Expiry Date"
+                            variant='outlined'
+                            fullWidth
+                            type="text" name="ExpiryDate" value={jobData?.ExpiryDate} onChange={handleChange}
+                        />
+                    </Grid>
+
                     <Grid item xs={12}>
                         <div className='text-center'>
                             <Btn
-                                label='Create Program'
+                                label='Post Job'
                                 onClick={handleSubmit}
-                                
+
                             />
                         </div>
                     </Grid>
@@ -340,16 +412,21 @@ const JobManagement = () => {
                     {jobs && jobs.length > 0 &&
                         jobs.map((e, i) => {
                             return (
-                                <Grid item key={i} md={4} sm={6} xs={12}>
-                                    <Card
+                                <Grid item key={i} xs={12}>
+                                    <JobCard
                                         name={e?.job_title}
-                                        description={e?.job_description}
+                                        job_description={e?.job_job_description}
+                                        requirements={e?.requirements}
+                                        location={e?.location}
+                                        salary={e?.salary}
+                                        postingDate={e?.PostingDate}
+                                        expiryDate={e?.ExpiryDate}
                                         showControls={true}
                                         onEdit={() => handleEdit(e)}
-                                        onDelete={() => handleDelete(e?.program_id)}
+                                        onDelete={() => handleDelete(e?.job_id)}
                                         onDetail={() => handleDetail(e)}
-                                    // img={e?.image_url}
                                     />
+
                                 </Grid>
                             )
                         })
