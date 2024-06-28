@@ -3,6 +3,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import Snack from '../../components/snack/Snack';
 import Loader from '../../components/loader/Loader';
+import Jobs from '../jobs/Jobs';
+import JobApplication from './jobSeekerPanelScreens/jobApplications/JobApplication';
 
 
 
@@ -23,9 +25,13 @@ export default function JobSeekerPanel() {
 
     const btns = [
         {
-            label: 'User Management',
-            to: 'UserManagement',
+            label: 'Jobs',
+            to: 'Jobs',
         },
+        {
+            label: 'Job Applications',
+            to: 'JobApplication'
+        }
     ]
 
     const handleCloseSnack = () => {
@@ -34,22 +40,15 @@ export default function JobSeekerPanel() {
         setSeverity('error');
     }
 
-    // useEffect(() => {
-    //     const storedUserData = localStorage.getItem("user");
-    //     if (storedUserData) {
-    //         const data = JSON.parse(storedUserData);
-    //         setUserData(data);
-    //         if (data?.role === 'Admin') {
-    //             setIsAdminLoggedIn(true);
-    //             setActiveScreen('User Management')
-    //             navigate('UserManagement')
-    //         } else {
-    //             navigate('/');
-    //         }
-    //     } else {
-    //         navigate('/')
-    //     }
-    // }, [isAdminLoggedIn])
+    useEffect(() => {
+        const storedUserData = localStorage.getItem("user");
+        if (storedUserData) {
+            const data = JSON.parse(storedUserData);
+            setUserData(data);
+        } else {
+            navigate('/')
+        }
+    }, [])
 
 
     const handleBtnClick = (e) => {
@@ -175,7 +174,8 @@ export default function JobSeekerPanel() {
                     </div>
 
                     <Routes>
-                       
+                        <Route path='Jobs' element={<Jobs />} ></Route>
+                        <Route path='JobApplication' element={<JobApplication />}></Route>
                     </Routes>
                 </div>
 

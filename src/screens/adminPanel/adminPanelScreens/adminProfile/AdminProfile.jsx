@@ -9,8 +9,6 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import EmailIcon from '@mui/icons-material/Email';
 import EventIcon from '@mui/icons-material/Event';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
-
-import SelectBox from '../../../../components/selectBox/SelectBox';
 import Snack from '../../../../components/snack/Snack';
 import Loader from '../../../../components/loader/Loader';
 
@@ -82,8 +80,8 @@ export default function AdminProfile() {
 
     const handleEditUser = () => {
         setIsLoading(true)
-        const { username, email, password, first_name,  last_name, contact_number, admin_id  } = editUserObj;
-        if (username && email && password  && first_name && last_name && contact_number) {
+        const { username, email, password, first_name, last_name, contact_number, admin_id } = editUserObj;
+        if (username && email && password && first_name && last_name && contact_number) {
             // api call 
             putData(`/update_admin/${admin_id}`, editUserObj).then((response) => {
                 if (response.success) {
@@ -116,7 +114,7 @@ export default function AdminProfile() {
         return (
             <Modal open={openEditUserModal}>
                 <div className='ap-userModal-style' >
-                    <div className='ap-userModal-content' style={{paddingTop:'250px'}}>
+                    <div className='ap-userModal-content' style={{ paddingTop: '250px' }}>
                         <div
                             onClick={() => setOpenEditUserModal(false)}
                             className='ap-modal-cancel-icon'><CancelIcon /></div>
@@ -132,13 +130,13 @@ export default function AdminProfile() {
                             onChange={(e) => addData1("email", e.target.value)}
                             value={editUserObj?.email}
                         />
-                         <InputField
+                        <InputField
                             icon={AccountCircleIcon}
                             placeholder="First Name"
                             onChange={(e) => addData1("first_name", e.target.value)}
                             value={editUserObj?.first_name}
                         />
-                         <InputField
+                        <InputField
                             icon={AccountCircleIcon}
                             placeholder="Last Name"
                             onChange={(e) => addData1("last_name", e.target.value)}

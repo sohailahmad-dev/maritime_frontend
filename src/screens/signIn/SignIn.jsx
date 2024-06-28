@@ -46,11 +46,13 @@ export default function SignIn() {
                     setOpenSnack(true);
                     setSeverity('success')
                     setIsLoading(false)
+                    const role = response.user.role.toLowerCase();
+                    console.log(response)
                     setTimeout(() => {
-                        if (response.user.role.toLowerCase() === 'admin' ) {
+                        if (role === 'admin') {
                             navigate('/adminPanel')
-                        } else {
-                            navigate('/')
+                        } else if (role == 'jobseeker' || role == 'job seeker') {
+                            navigate('/JobSeekerPanel')
                         }
                     }, 2000)
                 } else {
