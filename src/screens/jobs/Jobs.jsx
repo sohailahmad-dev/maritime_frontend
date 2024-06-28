@@ -32,7 +32,6 @@ export default function Jobs() {
         setIsLoading(true)
         getData(`jobs`).then((response) => {
             if (response.success) {
-                console.log(response?.data)
                 setJobs(response?.data)
                 setCardsToRender(response?.data)
                 setIsLoading(false)
@@ -56,7 +55,7 @@ export default function Jobs() {
 
     const status = isLoggedIn();
 
-
+    
 
 
 
@@ -81,12 +80,11 @@ export default function Jobs() {
                                             salary={e?.salary}
                                             postingDate={e?.PostingDate}
                                             expiryDate={e?.ExpiryDate}
+                                            onApply={()=>handleApply(e)}
                                         />
                                     </Grid>
                                 )
                             })}
-
-
                         </Grid>
                     </div>
                     <div style={{ height: '30px' }} />

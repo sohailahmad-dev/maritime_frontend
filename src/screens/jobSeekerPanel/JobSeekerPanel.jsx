@@ -5,6 +5,8 @@ import Snack from '../../components/snack/Snack';
 import Loader from '../../components/loader/Loader';
 import Jobs from '../jobs/Jobs';
 import JobApplication from './jobSeekerPanelScreens/jobApplications/JobApplication';
+import JobSeekerProfile from './jobSeekerPanelScreens/jobSeekerProfile/JobSeekerProfile';
+import { getData } from '../../config/apiCalls';
 
 
 
@@ -15,8 +17,9 @@ export default function JobSeekerPanel() {
     let [activeMenu, setActiveMenu] = useState('ap-navLinks ap-activeMenu');
     let [handleContent, setHandleContent] = useState('ap-rightSide ap-contractContent');
     let [activeScreen, setActiveScreen] = useState('Dashboard');
-    let [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
     let [userData, setUserData] = useState({});
+    let [usersData, setUsersData] = useState([]);
+    let [dataDetail, setDataDetail] = useState({});
     let [isLoading, setIsLoading] = useState(false);
     let [openSnack, setOpenSnack] = useState(false);
     let [severity, setSeverity] = useState('error');
@@ -45,10 +48,50 @@ export default function JobSeekerPanel() {
         if (storedUserData) {
             const data = JSON.parse(storedUserData);
             setUserData(data);
+            navigate('Jobs');
+            setActiveScreen('Jobs')
         } else {
             navigate('/')
         }
     }, [])
+
+    const getUsers = async () => {
+        setIsLoading(true)
+        getData(`jobseekers`).then((response) => {
+            if (response.success) {
+                setIsLoading(false)
+                setUsersData(response.data)
+            } else {
+                setSnackMsg(response.message);
+                setOpenSnack(true);
+                setIsLoading(false)
+            }
+        })
+            .catch((error) => {
+                setSnackMsg(error.message ?? "Network Error");
+                setOpenSnack(true);
+                setIsLoading(false)
+            });
+    }
+
+    useEffect(() => {
+        getUsers();
+        const storedUserData = localStorage.getItem("user");
+        if (storedUserData) {
+            const data = JSON.parse(storedUserData);
+            setUserData(data);
+        }
+    }, [])
+
+
+    useEffect(() => {
+        let currentUser = usersData.filter((user) => user?.email === userData?.email)
+        if (currentUser && currentUser.length > 0) {
+            setDataDetail(currentUser[0])
+            localStorage.setItem('dataDetails', JSON.stringify(currentUser[0]))
+
+        }
+    }, [usersData])
 
 
     const handleBtnClick = (e) => {
@@ -101,8 +144,9 @@ export default function JobSeekerPanel() {
         setSeverity('success')
         setIsLoading(false)
         setTimeout(() => {
-            setIsAdminLoggedIn(false);
-        }, 2000)
+            navigate('/')
+        }, 500)
+
     }
 
     return (
@@ -151,7 +195,11 @@ export default function JobSeekerPanel() {
                             {activeScreen}
                         </div>
                         <div className="ap-header-right">
-                            <div className="ap-header-profile">
+                            <div className="ap-header-profile"
+                            onClick={() => {
+                                setActiveScreen('Profile')
+                                navigate('JobSeekerProfile')}}
+                            >
                                 <div className="ap-header-profile-left">
                                     <div className='ap-header-profile-left-imgBox' >
                                         <img src={"https://tse1.mm.bing.net/th?id=OIP.FUYG2ULJI1LzxUqxK9pCZQHaHa&pid=Api&P=0&h=220"} alt="avatar" />
@@ -176,6 +224,7 @@ export default function JobSeekerPanel() {
                     <Routes>
                         <Route path='Jobs' element={<Jobs />} ></Route>
                         <Route path='JobApplication' element={<JobApplication />}></Route>
+                        <Route path='JobSeekerProfile' element={<JobSeekerProfile />} ></Route>
                     </Routes>
                 </div>
 

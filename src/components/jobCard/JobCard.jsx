@@ -2,7 +2,7 @@ import React from 'react'
 import Btn from '../btn/Btn'
 import { Grid } from '@mui/material'
 
-export default function JobCard({ name = 'default', description = 'default', requirements, showControls, onEdit, onDelete, onDetail, location, salary, postingDate, expiryDate }) {
+export default function JobCard({ name = 'default', description = 'default', requirements, showControls, onEdit, onDelete, onApply, location, salary, postingDate, expiryDate }) {
   return (
     <div className="course-card">
       <div className="course-card-body">
