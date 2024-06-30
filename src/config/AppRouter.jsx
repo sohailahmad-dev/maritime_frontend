@@ -11,6 +11,8 @@ import Courses from '../screens/courses/Courses';
 import Jobs from '../screens/jobs/Jobs';
 import Trainings from '../screens/trainings/Trainings';
 import CardDetails from '../screens/cardDetails/CardDetails';
+import MessageList from '../screens/messages/messageList';
+import SendMessage from '../screens/messages/sendMessage';
 
 
 
@@ -33,6 +35,9 @@ export default function AppRouter() {
                     <Route path='AdminPanel/*' element={<AdminPanel />}></Route>
                     <Route path='UserPanel/*' element={<UserPanel />}></Route>
                     <Route path='JobSeekerPanel/*' element={<JobSeekerPanel/>}></Route>
+
+                    <Route path='/messages' element={<MessageList />}></Route>
+                    <Route path='/SendMessage' element={<SendMessage />}></Route>
                 </Routes>
             </BrowserRouter>
         </>

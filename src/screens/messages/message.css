@@ -1,0 +1,92 @@
+/* AdminMessaging.css */
+
+.admin-messaging {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .admin-messaging h2 {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    color: #333;
+  }
+  
+  .message-form {
+    margin-bottom: 20px;
+  }
+  
+  .message-form form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  
+  .message-form label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .message-form input[type="text"],
+  .message-form textarea {
+    width: 100%;
+    padding: 8px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .message-form textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  
+  .message-form button {
+    padding: 8px 15px; /* Adjust padding to make the button smaller */
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem; /* Adjust font size for smaller button */
+  }
+  
+  .message-form button:hover {
+    background-color: #0056b3;
+  }
+  
+  .message-list {
+    margin-top: 20px;
+  }
+  
+  .message-list h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  
+  .message-list table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+  }
+  
+  .message-list th,
+  .message-list td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: left;
+  }
+  
+  .message-list th {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .message-list tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
