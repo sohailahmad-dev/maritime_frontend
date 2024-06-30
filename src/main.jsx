@@ -1,11 +1,13 @@
-import React from 'react'
+// index.js
+
+import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App.jsx'
-import './index.css'
+import App from './App'; // Adjust the path as per your project structure
+import './index.css';
 
-
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.render(
   <React.StrictMode>
     <App />
-  </React.StrictMode>
-)
+  </React.StrictMode>,
+  document.getElementById('root')
+);
