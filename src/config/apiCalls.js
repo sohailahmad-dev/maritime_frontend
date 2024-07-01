@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-export const API_BASE_URL = 'https://maritimeedu.azurewebsites.net/';
+export const API_BASE_URL = 'https://localhost:8000/api/';
+// export const API_BASE_URL = 'https://maritimeedu.azurewebsites.net/';
 
 const axiosInstance = axios.create({
     baseURL: API_BASE_URL,
